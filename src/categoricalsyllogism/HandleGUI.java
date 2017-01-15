@@ -31,7 +31,7 @@ public class HandleGUI {
     int[][] grid = new int[13][15];
 
     private static final String NAME = "Categorical Syllogism";
-    private static final ImageIcon ICON = new ImageIcon("CategoricalSyllogism.png");
+    private static final ImageIcon ICON = new ImageIcon("Socrates.png");
     private final JFrame frame = new JFrame(NAME);
     private final JPanel panTop = new JPanel(); //going to have pan1 and pan2
     private final JPanel pan1 = new JPanel(); //going to have the three statements
