@@ -1,9 +1,8 @@
-/**
- * Bailey Thompson
- * Info: Responsible for returning the major, minor, and conclusion sentences.
- */
 package categoricalsyllogism;
 
+/**
+ * Returns the major, minor, and conclusion sentences.
+ */
 public class Print {
 
     public String premise(String one, String two, char let) {
