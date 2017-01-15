@@ -1,9 +1,8 @@
-/**
- * Bailey Thompson
- * Info: Responsible for generating the three letters and one number.
- */
 package categoricalsyllogism;
 
+/**
+ * Generates the three letters and one number.
+ */
 public class Generate {
 
     public int number() {
