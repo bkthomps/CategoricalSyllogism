@@ -1,9 +1,8 @@
-/**
- * Bailey Thompson
- * Info: Responsible for the logic of the program.
- */
 package categoricalsyllogism;
 
+/**
+ * Performs the logic of the program.
+ */
 public class RunLogic {
 
     public Data doLogic() {
