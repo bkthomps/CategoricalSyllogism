@@ -1,7 +1,7 @@
 /**
  * Bailey Thompson
- * Categorical Syllogism (1.0.1)
- * 14 January 2016
+ * Categorical Syllogism (1.0.2)
+ * 15 January 2016
  * Info: Randomly  generates  a  categorical  syllogism and the three letters and one number which describes it. It also
  * Info: states  whether the syllogism is valid or invalid. As such, if a fallacy is committed, the fallacy will be red,
  * Info: if  the  fallacy  is  not  committed, it will be green. It is also possible to add words which will be randomly
