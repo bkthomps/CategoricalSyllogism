@@ -1,9 +1,8 @@
-/**
- * Bailey Thompson
- * Info: Responsible for returning three non-repeating words.
- */
 package categoricalsyllogism;
 
+/**
+ * Returns three non-repeating words.
+ */
 public class PickWords {
 
     public String pick() {
