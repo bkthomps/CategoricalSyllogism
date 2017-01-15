@@ -1,9 +1,8 @@
-/**
- * Bailey Thompson
- * Info: Responsible for determining which fallacies are true based on three letters and one number combo.
- */
 package categoricalsyllogism;
 
+/**
+ * Determines which fallacies are true based on three letters and one number combo.
+ */
 public class Fallacies {
 
     public boolean middle(char one, char two, int four) {
