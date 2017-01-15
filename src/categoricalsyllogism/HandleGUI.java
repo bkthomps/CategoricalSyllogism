@@ -1,7 +1,3 @@
-/**
- * Bailey Thompson
- * Info: Responsible for the GUI.
- */
 package categoricalsyllogism;
 
 import java.awt.Color;
@@ -20,6 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * Displays the GUI.
+ */
 public class HandleGUI {
 
     private static final String SPACE = "   ";
