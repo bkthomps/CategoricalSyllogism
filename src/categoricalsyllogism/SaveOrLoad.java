@@ -1,7 +1,3 @@
-/**
- * Bailey Thompson
- * Info: Responsible for saving and loading from file.
- */
 package categoricalsyllogism;
 
 import java.io.BufferedOutputStream;
@@ -17,6 +13,9 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.nio.file.StandardOpenOption.WRITE;
 
+/**
+ * Saves and loads from file.
+ */
 public class SaveOrLoad {
 
     private static final Path FILE = Paths.get("Syllogisms.txt");
