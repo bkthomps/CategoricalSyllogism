@@ -1,9 +1,8 @@
-/**
- * Bailey Thompson
- * Info: Responsible for holding the data.
- */
 package categoricalsyllogism;
 
+/**
+ * Holds data.
+ */
 public class Data {
 
     char one;
