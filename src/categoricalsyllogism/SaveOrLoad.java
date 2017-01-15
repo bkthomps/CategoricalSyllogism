@@ -28,8 +28,10 @@ public class SaveOrLoad {
         } catch (FileAlreadyExistsException x) {
             try (InputStream in = Files.newInputStream(FILE);
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-                String line = reader.readLine();
-                saveFile = line;
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    saveFile = line;
+                }
             } catch (IOException e) {
                 System.err.println(e);
             }
