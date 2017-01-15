@@ -19,7 +19,7 @@ import static java.nio.file.StandardOpenOption.WRITE;
 
 public class SaveOrLoad {
 
-    private static final Path FILE = Paths.get("CategoricalSyllogism.txt");
+    private static final Path FILE = Paths.get("Syllogisms.txt");
 
     public String[] load() {
         String saveFile = null;
