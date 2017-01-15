@@ -1,9 +1,8 @@
-/**
- * Bailey Thompson
- * Info: Responsible for Venn diagram logic.
- */
 package categoricalsyllogism;
 
+/**
+ * Performs venn diagram logic.
+ */
 public class VennLogic {
 
     public int[][] makeGrid(char one, char two, int four) {
