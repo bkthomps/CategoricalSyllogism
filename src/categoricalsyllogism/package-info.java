@@ -1,7 +1,7 @@
 /**
  * Bailey Thompson <br>
- * Categorical Syllogism (1.0.3) <br>
- * 15 January 2016 <br>
+ * Categorical Syllogism (1.0.4) <br>
+ * 16 January 2016 <br>
  * <br>
  * Randomly generates a categorical syllogism and the three letters and one number which describes it.&nbsp;It also
  * states whether the syllogism is valid or invalid.&nbsp;As such, if a fallacy is committed, the fallacy will be red,
