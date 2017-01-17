@@ -69,7 +69,6 @@ public class HandleGUI {
         frame.setIconImage(ICON.getImage());
         frame.setVisible(true);
 
-        //top half of venn diagram
         pan3sub2.setLayout(new GridLayout());
         pan3sub2.add(new GridPane());
 
