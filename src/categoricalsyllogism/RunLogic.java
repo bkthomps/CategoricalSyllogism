@@ -3,7 +3,7 @@ package categoricalsyllogism;
 /**
  * Performs the logic of the program.
  */
-public class RunLogic {
+class RunLogic {
 
     public Data doLogic() {
         Data data = new Data();
