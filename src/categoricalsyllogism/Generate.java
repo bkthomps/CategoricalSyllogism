@@ -3,16 +3,15 @@ package categoricalsyllogism;
 /**
  * Generates the three letters and one number.
  */
-public class Generate {
+class Generate {
 
-    public int number() {
-        int min = 1;
-        int max = 4;
-        int gen = (int) (Math.random() * (max - min + 1)) + min;
-        return gen;
+    int number() {
+        final int MIN = 1;
+        final int MAX = 4;
+        return (int) (Math.random() * (MAX - MIN + 1)) + MIN;
     }
 
-    public char character() {
+    char character() {
         char gen;
         int num = number();
         switch (num) {
