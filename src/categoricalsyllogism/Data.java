@@ -3,7 +3,7 @@ package categoricalsyllogism;
 /**
  * Holds data.
  */
-public class Data {
+class Data {
 
     char one;
     char two;
@@ -16,7 +16,7 @@ public class Data {
     boolean affirmativeFal;
     boolean existentialFal;
     boolean valid;
-    String[] words = new String[3];
+    final String[] words = new String[3];
     String majorSentence;
     String minorSentence;
     String concSentence;
