@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 /**
  * Displays the GUI.
  */
-public class HandleGUI {
+class HandleGUI {
 
     private static final String SPACE = "   ";
     private static final String BIG_SPACE = "                        ";
@@ -27,7 +27,7 @@ public class HandleGUI {
     private static final Color GOOD_COLOUR = new Color(33, 191, 55);
     private static final int MAX_LENGTH = 25;
 
-    int[][] grid = new int[13][15];
+    private int[][] grid = new int[13][15];
 
     private static final String NAME = "Categorical Syllogism";
     private static final ImageIcon ICON = new ImageIcon("Socrates.png");
@@ -61,7 +61,7 @@ public class HandleGUI {
     private final JButton btnAdd = new JButton("Add");
     private final JButton btnNext = new JButton("Next");
 
-    public void createGUI() {
+    void createGUI() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(400, 400);
@@ -125,17 +125,11 @@ public class HandleGUI {
     }
 
     private void buttonPress() {
-        btnExit.addActionListener((ActionEvent e) -> {
-            System.exit(0);
-        });
+        btnExit.addActionListener((ActionEvent e) -> System.exit(0));
 
-        btnAdd.addActionListener((ActionEvent e) -> {
-            doAdd();
-        });
+        btnAdd.addActionListener((ActionEvent e) -> doAdd());
 
-        btnNext.addActionListener((ActionEvent e) -> {
-            updateGUI();
-        });
+        btnNext.addActionListener((ActionEvent e) -> updateGUI());
     }
 
     private void updateGUI() {
@@ -189,9 +183,9 @@ public class HandleGUI {
         if (newWord == null) {
             newWord = "";
         }
-        while (existant(newWord, database) || newWord.length() > 25) {
+        while (existent(newWord, database) || newWord.length() > 25) {
             String errorMessage = "Error!";
-            if (existant(newWord, database)) {
+            if (existent(newWord, database)) {
                 errorMessage = "This word is already in the database.";
             } else if (newWord.length() > MAX_LENGTH) {
                 errorMessage = "Maximum of " + MAX_LENGTH + " characters.";
@@ -209,7 +203,7 @@ public class HandleGUI {
         }
     }
 
-    private boolean existant(String newWord, String[] database) {
+    private boolean existent(String newWord, String[] database) {
         boolean used = false;
         for (String database1 : database) {
             if (newWord.equals(database1)) {
@@ -227,9 +221,9 @@ public class HandleGUI {
 
     public class GridPane extends JPanel {
 
-        List<Rectangle> cells;
+        final List<Rectangle> cells;
 
-        public GridPane() {
+        GridPane() {
             cells = new ArrayList<>(13 * 15);
         }
 
