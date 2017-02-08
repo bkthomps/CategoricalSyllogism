@@ -3,7 +3,7 @@ package categoricalsyllogism;
 /**
  * Entry point.
  */
-public class CategoricalSyllogism {
+class CategoricalSyllogism {
 
     public static void main(String[] args) {
         HandleGUI gui = new HandleGUI();
