@@ -3,9 +3,9 @@ package categoricalsyllogism;
 /**
  * Returns the major, minor, and conclusion sentences.
  */
-public class Print {
+class Print {
 
-    public String premise(String one, String two, char let) {
+    String premise(String one, String two, char let) {
         String sentence;
         switch (let) {
             case 'A':
@@ -27,8 +27,7 @@ public class Print {
         return sentence;
     }
 
-    public String conc(String one, String two, char let) {
-        String sentence = "∴ " + premise(one, two, let);
-        return sentence;
+    String conc(String one, String two, char let) {
+        return "∴ " + premise(one, two, let);
     }
 }
