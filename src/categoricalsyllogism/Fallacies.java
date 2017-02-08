@@ -3,9 +3,9 @@ package categoricalsyllogism;
 /**
  * Determines which fallacies are true based on three letters and one number combo.
  */
-public class Fallacies {
+class Fallacies {
 
-    public boolean middle(char one, char two, int four) {
+    boolean middle(char one, char two, int four) {
         boolean ret = false;
         switch (one) {
             case 'I':
@@ -39,7 +39,7 @@ public class Fallacies {
         return ret;
     }
 
-    public boolean major(char one, char three, int four) {
+    boolean major(char one, char three, int four) {
         boolean ret = false;
         if (negative(three)) {
             if (one == 'I') {
@@ -53,7 +53,7 @@ public class Fallacies {
         return ret;
     }
 
-    public boolean minor(char two, char three, int four) {
+    boolean minor(char two, char three, int four) {
         boolean ret = false;
         if (absolute(three)) {
             if (two == 'I') {
@@ -67,15 +67,15 @@ public class Fallacies {
         return ret;
     }
 
-    public boolean exclusive(char one, char two) {
+    boolean exclusive(char one, char two) {
         return negative(one) && negative(two);
     }
 
-    public boolean affirmative(char one, char two, char three) {
+    boolean affirmative(char one, char two, char three) {
         return (negative(one) || negative(two)) && positive(three);
     }
 
-    public boolean existential(char one, char two, char three) {
+    boolean existential(char one, char two, char three) {
         return absolute(one) && absolute(two) && relative(three);
     }
 
