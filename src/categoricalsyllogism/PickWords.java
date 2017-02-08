@@ -3,15 +3,15 @@ package categoricalsyllogism;
 /**
  * Returns three non-repeating words.
  */
-public class PickWords {
+class PickWords {
 
-    public String pick() {
+    String pick() {
         String[] database = getLoad();
         int index = generateIndex();
         return database[index];
     }
 
-    public String pick(String one) {
+    String pick(String one) {
         String[] database = getLoad();
         int index = generateIndex();
         String currentWord = database[index];
@@ -26,7 +26,7 @@ public class PickWords {
         return currentWord;
     }
 
-    public String pick(String one, String two) {
+    String pick(String one, String two) {
         String[] database = getLoad();
         int index = generateIndex();
         String currentWord = database[index];
@@ -43,15 +43,13 @@ public class PickWords {
 
     private int generateIndex() {
         String[] database = getLoad();
-        int min = 0;
-        int max = database.length - 1;
-        int gen = (int) (Math.random() * (max - min + 1)) + min;
-        return gen;
+        final int MIN = 0;
+        int MAX = database.length - 1;
+        return (int) (Math.random() * (MAX - MIN + 1)) + MIN;
     }
 
     private String[] getLoad() {
         SaveOrLoad doLoad = new SaveOrLoad();
-        String[] database = doLoad.load();
-        return database;
+        return doLoad.load();
     }
 }
