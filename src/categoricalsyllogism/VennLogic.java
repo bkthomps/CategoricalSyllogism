@@ -3,9 +3,9 @@ package categoricalsyllogism;
 /**
  * Performs venn diagram logic.
  */
-public class VennLogic {
+class VennLogic {
 
-    public int[][] makeGrid(char one, char two, int four) {
+    int[][] makeGrid(char one, char two, int four) {
         int[][] grid = new int[13][15]; //0 = white; 1 = black; 2 = green; 3 = red; 4 = orange
         grid = setToZero(grid);
         grid = setBlack(grid);
@@ -52,11 +52,11 @@ public class VennLogic {
 
     private int[][] addColour(int[][] oldGrid, char one, char two, int four) {
         int[] section = allOrNone(one, two, four);
-        boolean[] checkmark = someAre(one, two);
-        boolean[] xmark = someAreNot(one, two, four);
+        boolean[] checkMark = someAre(one, two);
+        boolean[] xMark = someAreNot(one, two, four);
 
         int[][] newGrid = oldGrid;
-        newGrid = changeMarks(newGrid, checkmark, xmark);
+        newGrid = changeMarks(newGrid, checkMark, xMark);
         newGrid = changeSection(newGrid, section);
 
         return newGrid;
@@ -100,140 +100,136 @@ public class VennLogic {
     }
 
     private boolean[] someAre(char one, char two) {
-        boolean[] checkmark = new boolean[2];
-        checkmark[0] = (one == 'I');
-        checkmark[1] = (two == 'I');
-        return checkmark;
+        boolean[] checkMark = new boolean[2];
+        checkMark[0] = (one == 'I');
+        checkMark[1] = (two == 'I');
+        return checkMark;
     }
 
     private boolean[] someAreNot(char one, char two, int four) {
-        boolean[] xmark = new boolean[4];
+        boolean[] xMark = new boolean[4];
         for (int i = 0; i < 4; i++) {
-            xmark[i] = false;
+            xMark[i] = false;
         }
 
         if (one == 'O') {
             if (four == 1 || four == 3) {
-                xmark[3] = true;
+                xMark[3] = true;
             } else {
-                xmark[0] = true;
+                xMark[0] = true;
             }
         }
         if (two == 'O') {
             if (four == 3 || four == 4) {
-                xmark[2] = true;
+                xMark[2] = true;
             } else {
-                xmark[1] = true;
+                xMark[1] = true;
             }
         }
 
-        return xmark;
+        return xMark;
     }
 
-    private int[][] changeMarks(int[][] oldGrid, boolean[] checkmark, boolean[] xmark) {
-        int[][] newGrid = oldGrid;
-
-        if (checkmark[0]) {
-            newGrid[6][6] = 2;
+    private int[][] changeMarks(int[][] oldGrid, boolean[] checkMark, boolean[] xMark) {
+        if (checkMark[0]) {
+            oldGrid[6][6] = 2;
         }
-        if (checkmark[1]) {
-            newGrid[6][8] = 2;
+        if (checkMark[1]) {
+            oldGrid[6][8] = 2;
         }
 
-        if (xmark[0]) {
-            newGrid[2][6] = 3;
+        if (xMark[0]) {
+            oldGrid[2][6] = 3;
         }
-        if (xmark[1]) {
-            newGrid[2][8] = 3;
+        if (xMark[1]) {
+            oldGrid[2][8] = 3;
         }
-        if (xmark[2]) {
-            newGrid[8][5] = 3;
+        if (xMark[2]) {
+            oldGrid[8][5] = 3;
         }
-        if (xmark[3]) {
-            newGrid[8][9] = 3;
+        if (xMark[3]) {
+            oldGrid[8][9] = 3;
         }
 
-        return newGrid;
+        return oldGrid;
     }
 
     private int[][] changeSection(int[][] oldGrid, int[] section) {
-        int[][] newGrid = oldGrid;
         for (int i = 0; i < 7; i++) {
             if (section[i] != 0) {
-                sectionToArea(newGrid, i, 4);
+                sectionToArea(oldGrid, i, 4);
             }
         }
-        return newGrid;
+        return oldGrid;
     }
 
     private int[][] sectionToArea(int[][] oldGrid, int section, int num) {
-        int[][] newGrid = oldGrid;
         switch (section) {
             case 0:
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 3; j++) {
-                        newGrid[2 + i][1 + j] = num;
-                        newGrid[1 + j][2 + i] = num;
+                        oldGrid[2 + i][1 + j] = num;
+                        oldGrid[1 + j][2 + i] = num;
                     }
                 }
-                newGrid[4][4] = num;
-                newGrid[1][6] = num;
-                newGrid[6][1] = num;
-                newGrid[6][2] = num;
-                newGrid[7][2] = num;
+                oldGrid[4][4] = num;
+                oldGrid[1][6] = num;
+                oldGrid[6][1] = num;
+                oldGrid[6][2] = num;
+                oldGrid[7][2] = num;
                 break;
             case 1:
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 3; j++) {
-                        newGrid[1 + j][9 + i] = num;
-                        newGrid[2 + i][11 + j] = num;
+                        oldGrid[1 + j][9 + i] = num;
+                        oldGrid[2 + i][11 + j] = num;
                     }
                 }
-                newGrid[1][8] = num;
-                newGrid[4][10] = num;
-                newGrid[6][12] = num;
-                newGrid[6][13] = num;
-                newGrid[7][12] = num;
+                oldGrid[1][8] = num;
+                oldGrid[4][10] = num;
+                oldGrid[6][12] = num;
+                oldGrid[6][13] = num;
+                oldGrid[7][12] = num;
                 break;
             case 2:
                 for (int y = 0; y < 3; y++) {
                     for (int x = 0; x < 5; x++) {
-                        newGrid[9 + y][5 + x] = num;
+                        oldGrid[9 + y][5 + x] = num;
                     }
                 }
                 for (int i = 0; i < 2; i++) {
-                    newGrid[9 + i][4] = num;
-                    newGrid[9 + i][10] = num;
+                    oldGrid[9 + i][4] = num;
+                    oldGrid[9 + i][10] = num;
                 }
-                newGrid[8][7] = num;
+                oldGrid[8][7] = num;
                 break;
             case 3:
-                newGrid[2][7] = num;
-                newGrid[3][7] = num;
+                oldGrid[2][7] = num;
+                oldGrid[3][7] = num;
                 break;
             case 4:
                 for (int y = 0; y < 2; y++) {
                     for (int x = 0; x < 2; x++) {
-                        newGrid[6 + y][4 + x] = num;
+                        oldGrid[6 + y][4 + x] = num;
                     }
                 }
-                newGrid[7][6] = num;
-                newGrid[5][5] = num;
+                oldGrid[7][6] = num;
+                oldGrid[5][5] = num;
                 break;
             case 5:
                 for (int y = 0; y < 2; y++) {
                     for (int x = 0; x < 2; x++) {
-                        newGrid[6 + y][9 + x] = num;
+                        oldGrid[6 + y][9 + x] = num;
                     }
                 }
-                newGrid[7][8] = num;
-                newGrid[5][9] = num;
+                oldGrid[7][8] = num;
+                oldGrid[5][9] = num;
                 break;
             case 6:
-                newGrid[5][7] = num;
-                newGrid[6][7] = num;
+                oldGrid[5][7] = num;
+                oldGrid[6][7] = num;
                 break;
         }
-        return newGrid;
+        return oldGrid;
     }
 }
