@@ -1,13 +1,15 @@
 package categoricalsyllogism;
 
 /**
- * Returns the major, minor, and conclusion sentences.
+ * Determines the major, minor, and conclusion sentences. The type of sentence is determined by the letter which is
+ * associated with the specific sentence. For example, in the syllogism, AEI-3, the major premise starts with all,
+ * the minor premise starts with no, and the conclusion starts with some.
  */
 class Print {
 
-    String premise(String one, String two, char let) {
+    String premise(String one, String two, char letter) {
         String sentence;
-        switch (let) {
+        switch (letter) {
             case 'A':
                 sentence = "All " + one + " are " + two + ".";
                 break;
@@ -27,7 +29,7 @@ class Print {
         return sentence;
     }
 
-    String conc(String one, String two, char let) {
-        return "∴ " + premise(one, two, let);
+    String conclusion(String one, String two, char letter) {
+        return "∴ " + premise(one, two, letter);
     }
 }
