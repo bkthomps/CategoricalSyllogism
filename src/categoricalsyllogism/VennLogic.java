@@ -1,65 +1,63 @@
 package categoricalsyllogism;
 
 /**
- * Performs venn diagram logic.
+ * Performs venn diagram logic. Takes in the syllogism classification (ex: AAA-1) and colors in the venn diagram
+ * accordingly. Green represents a check-mark, red represents an x, and orange represents a filled-in area.
  */
 class VennLogic {
 
-    int[][] makeGrid(char one, char two, int four) {
-        int[][] grid = new int[13][15]; //0 = white; 1 = black; 2 = green; 3 = red; 4 = orange
-        grid = setToZero(grid);
-        grid = setBlack(grid);
-        grid = addColour(grid, one, two, four);
+    enum GridColor {WHITE, BLACK, GREEN, RED, ORANGE}
+
+    GridColor[][] makeGrid(char one, char two, int four) {
+        GridColor[][] grid = new GridColor[13][15];
+        setToZero(grid);
+        setBlack(grid);
+        addColor(grid, one, two, four);
         return grid;
     }
 
-    private int[][] setToZero(int[][] grid) {
+    private void setToZero(GridColor[][] grid) {
         for (int y = 0; y < 13; y++) {
             for (int x = 0; x < 15; x++) {
-                grid[y][x] = 0;
+                grid[y][x] = GridColor.WHITE;
             }
         }
-        return grid;
     }
 
-    private int[][] setBlack(int[][] grid) {
+    private void setBlack(GridColor[][] grid) {
         for (int i = 0; i < 5; i++) {
-            grid[0][2 + i] = 1;
-            grid[0][8 + i] = 1;
-            grid[8][2 + i] = 1;
-            grid[8][8 + i] = 1;
-            grid[4][5 + i] = 1;
-            grid[12][5 + i] = 1;
-            grid[2 + i][0] = 1;
-            grid[2 + i][6] = 1;
-            grid[2 + i][8] = 1;
-            grid[2 + i][14] = 1;
-            grid[6 + i][3] = 1;
-            grid[6 + i][11] = 1;
+            grid[0][2 + i] = GridColor.BLACK;
+            grid[0][8 + i] = GridColor.BLACK;
+            grid[8][2 + i] = GridColor.BLACK;
+            grid[8][8 + i] = GridColor.BLACK;
+            grid[4][5 + i] = GridColor.BLACK;
+            grid[12][5 + i] = GridColor.BLACK;
+            grid[2 + i][0] = GridColor.BLACK;
+            grid[2 + i][6] = GridColor.BLACK;
+            grid[2 + i][8] = GridColor.BLACK;
+            grid[2 + i][14] = GridColor.BLACK;
+            grid[6 + i][3] = GridColor.BLACK;
+            grid[6 + i][11] = GridColor.BLACK;
         }
-        grid[1][1] = 1;
-        grid[1][7] = 1;
-        grid[1][13] = 1;
-        grid[5][4] = 1;
-        grid[5][10] = 1;
-        grid[7][1] = 1;
-        grid[7][7] = 1;
-        grid[7][13] = 1;
-        grid[11][4] = 1;
-        grid[11][10] = 1;
-        return grid;
+        grid[1][1] = GridColor.BLACK;
+        grid[1][7] = GridColor.BLACK;
+        grid[1][13] = GridColor.BLACK;
+        grid[5][4] = GridColor.BLACK;
+        grid[5][10] = GridColor.BLACK;
+        grid[7][1] = GridColor.BLACK;
+        grid[7][7] = GridColor.BLACK;
+        grid[7][13] = GridColor.BLACK;
+        grid[11][4] = GridColor.BLACK;
+        grid[11][10] = GridColor.BLACK;
     }
 
-    private int[][] addColour(int[][] oldGrid, char one, char two, int four) {
+    private void addColor(GridColor[][] grid, char one, char two, int four) {
         int[] section = allOrNone(one, two, four);
         boolean[] checkMark = someAre(one, two);
         boolean[] xMark = someAreNot(one, two, four);
 
-        int[][] newGrid = oldGrid;
-        newGrid = changeMarks(newGrid, checkMark, xMark);
-        newGrid = changeSection(newGrid, section);
-
-        return newGrid;
+        changeMarks(grid, checkMark, xMark);
+        changeSection(grid, section);
     }
 
     private int[] allOrNone(char one, char two, int four) {
@@ -130,106 +128,103 @@ class VennLogic {
         return xMark;
     }
 
-    private int[][] changeMarks(int[][] oldGrid, boolean[] checkMark, boolean[] xMark) {
+    private void changeMarks(GridColor[][] grid, boolean[] checkMark, boolean[] xMark) {
         if (checkMark[0]) {
-            oldGrid[6][6] = 2;
+            grid[6][6] = GridColor.GREEN;
         }
         if (checkMark[1]) {
-            oldGrid[6][8] = 2;
+            grid[6][8] = GridColor.GREEN;
         }
 
         if (xMark[0]) {
-            oldGrid[2][6] = 3;
+            grid[2][6] = GridColor.RED;
         }
         if (xMark[1]) {
-            oldGrid[2][8] = 3;
+            grid[2][8] = GridColor.RED;
         }
         if (xMark[2]) {
-            oldGrid[8][5] = 3;
+            grid[8][5] = GridColor.RED;
         }
         if (xMark[3]) {
-            oldGrid[8][9] = 3;
+            grid[8][9] = GridColor.RED;
         }
-
-        return oldGrid;
     }
 
-    private int[][] changeSection(int[][] oldGrid, int[] section) {
+    private void changeSection(GridColor[][] grid, int[] section) {
         for (int i = 0; i < 7; i++) {
             if (section[i] != 0) {
-                sectionToArea(oldGrid, i, 4);
+                colorInSection(grid, i);
             }
         }
-        return oldGrid;
     }
 
-    private int[][] sectionToArea(int[][] oldGrid, int section, int num) {
+    private void colorInSection(GridColor[][] grid, int section) {
+        final GridColor FILLED_IN_COLOR = GridColor.ORANGE;
         switch (section) {
             case 0:
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 3; j++) {
-                        oldGrid[2 + i][1 + j] = num;
-                        oldGrid[1 + j][2 + i] = num;
+                        grid[2 + i][1 + j] = FILLED_IN_COLOR;
+                        grid[1 + j][2 + i] = FILLED_IN_COLOR;
                     }
                 }
-                oldGrid[4][4] = num;
-                oldGrid[1][6] = num;
-                oldGrid[6][1] = num;
-                oldGrid[6][2] = num;
-                oldGrid[7][2] = num;
+                grid[4][4] = FILLED_IN_COLOR;
+                grid[1][6] = FILLED_IN_COLOR;
+                grid[6][1] = FILLED_IN_COLOR;
+                grid[6][2] = FILLED_IN_COLOR;
+                grid[7][2] = FILLED_IN_COLOR;
                 break;
             case 1:
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 3; j++) {
-                        oldGrid[1 + j][9 + i] = num;
-                        oldGrid[2 + i][11 + j] = num;
+                        grid[1 + j][9 + i] = FILLED_IN_COLOR;
+                        grid[2 + i][11 + j] = FILLED_IN_COLOR;
                     }
                 }
-                oldGrid[1][8] = num;
-                oldGrid[4][10] = num;
-                oldGrid[6][12] = num;
-                oldGrid[6][13] = num;
-                oldGrid[7][12] = num;
+                grid[1][8] = FILLED_IN_COLOR;
+                grid[4][10] = FILLED_IN_COLOR;
+                grid[6][12] = FILLED_IN_COLOR;
+                grid[6][13] = FILLED_IN_COLOR;
+                grid[7][12] = FILLED_IN_COLOR;
                 break;
             case 2:
                 for (int y = 0; y < 3; y++) {
                     for (int x = 0; x < 5; x++) {
-                        oldGrid[9 + y][5 + x] = num;
+                        grid[9 + y][5 + x] = FILLED_IN_COLOR;
                     }
                 }
                 for (int i = 0; i < 2; i++) {
-                    oldGrid[9 + i][4] = num;
-                    oldGrid[9 + i][10] = num;
+                    grid[9 + i][4] = FILLED_IN_COLOR;
+                    grid[9 + i][10] = FILLED_IN_COLOR;
                 }
-                oldGrid[8][7] = num;
+                grid[8][7] = FILLED_IN_COLOR;
                 break;
             case 3:
-                oldGrid[2][7] = num;
-                oldGrid[3][7] = num;
+                grid[2][7] = FILLED_IN_COLOR;
+                grid[3][7] = FILLED_IN_COLOR;
                 break;
             case 4:
                 for (int y = 0; y < 2; y++) {
                     for (int x = 0; x < 2; x++) {
-                        oldGrid[6 + y][4 + x] = num;
+                        grid[6 + y][4 + x] = FILLED_IN_COLOR;
                     }
                 }
-                oldGrid[7][6] = num;
-                oldGrid[5][5] = num;
+                grid[7][6] = FILLED_IN_COLOR;
+                grid[5][5] = FILLED_IN_COLOR;
                 break;
             case 5:
                 for (int y = 0; y < 2; y++) {
                     for (int x = 0; x < 2; x++) {
-                        oldGrid[6 + y][9 + x] = num;
+                        grid[6 + y][9 + x] = FILLED_IN_COLOR;
                     }
                 }
-                oldGrid[7][8] = num;
-                oldGrid[5][9] = num;
+                grid[7][8] = FILLED_IN_COLOR;
+                grid[5][9] = FILLED_IN_COLOR;
                 break;
             case 6:
-                oldGrid[5][7] = num;
-                oldGrid[6][7] = num;
+                grid[5][7] = FILLED_IN_COLOR;
+                grid[6][7] = FILLED_IN_COLOR;
                 break;
         }
-        return oldGrid;
     }
 }
