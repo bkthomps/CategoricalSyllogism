@@ -1,11 +1,12 @@
 package categoricalsyllogism;
 
 /**
- * Performs the logic of the program.
+ * Performs the logic of the program. Associates variables to the correct values executing various methods in various
+ * specified classes.
  */
 class RunLogic {
 
-    public Data doLogic() {
+    Data doLogic() {
         Data data = new Data();
 
         Generate gen = new Generate();
@@ -15,46 +16,46 @@ class RunLogic {
         data.four = gen.number();
 
         Fallacies fal = new Fallacies();
-        data.middleFal = fal.middle(data.one, data.two, data.four);
-        data.majorFal = fal.major(data.one, data.three, data.four);
-        data.minorFal = fal.minor(data.two, data.three, data.four);
-        data.exclusiveFal = fal.exclusive(data.one, data.two);
-        data.affirmativeFal = fal.affirmative(data.one, data.two, data.three);
-        data.existentialFal = fal.existential(data.one, data.two, data.three);
-        data.valid = !data.middleFal && !data.majorFal && !data.minorFal && !data.exclusiveFal
-                && !data.affirmativeFal && !data.existentialFal;
+        data.middleFallacy = fal.middle(data.one, data.two, data.four);
+        data.majorFallacy = fal.major(data.one, data.three, data.four);
+        data.minorFallacy = fal.minor(data.two, data.three, data.four);
+        data.exclusiveFallacy = fal.exclusive(data.one, data.two);
+        data.affirmativeFallacy = fal.affirmative(data.one, data.two, data.three);
+        data.existentialFallacy = fal.existential(data.one, data.two, data.three);
+        data.validSyllogism = !data.middleFallacy && !data.majorFallacy && !data.minorFallacy && !data.exclusiveFallacy
+                && !data.affirmativeFallacy && !data.existentialFallacy;
 
         PickWords wordChoose = new PickWords();
-        data.words[0] = wordChoose.pick();
-        data.words[1] = wordChoose.pick(data.words[0]);
-        data.words[2] = wordChoose.pick(data.words[0], data.words[1]);
+        data.statements[0] = wordChoose.pick();
+        data.statements[1] = wordChoose.pick(data.statements[0]);
+        data.statements[2] = wordChoose.pick(data.statements[0], data.statements[1]);
 
         Print pr = new Print();
         switch (data.four) {
             case 1:
-                data.majorSentence = pr.premise(data.words[1], data.words[0], data.one);
-                data.minorSentence = pr.premise(data.words[2], data.words[1], data.two);
-                data.concSentence = pr.conc(data.words[2], data.words[0], data.three);
+                data.majorSentence = pr.premise(data.statements[1], data.statements[0], data.one);
+                data.minorSentence = pr.premise(data.statements[2], data.statements[1], data.two);
+                data.conclusionSentence = pr.conclusion(data.statements[2], data.statements[0], data.three);
                 break;
             case 2:
-                data.majorSentence = pr.premise(data.words[0], data.words[1], data.one);
-                data.minorSentence = pr.premise(data.words[2], data.words[1], data.two);
-                data.concSentence = pr.conc(data.words[2], data.words[0], data.three);
+                data.majorSentence = pr.premise(data.statements[0], data.statements[1], data.one);
+                data.minorSentence = pr.premise(data.statements[2], data.statements[1], data.two);
+                data.conclusionSentence = pr.conclusion(data.statements[2], data.statements[0], data.three);
                 break;
             case 3:
-                data.majorSentence = pr.premise(data.words[1], data.words[0], data.one);
-                data.minorSentence = pr.premise(data.words[1], data.words[2], data.two);
-                data.concSentence = pr.conc(data.words[2], data.words[0], data.three);
+                data.majorSentence = pr.premise(data.statements[1], data.statements[0], data.one);
+                data.minorSentence = pr.premise(data.statements[1], data.statements[2], data.two);
+                data.conclusionSentence = pr.conclusion(data.statements[2], data.statements[0], data.three);
                 break;
             case 4:
-                data.majorSentence = pr.premise(data.words[0], data.words[1], data.one);
-                data.minorSentence = pr.premise(data.words[1], data.words[2], data.two);
-                data.concSentence = pr.conc(data.words[2], data.words[0], data.three);
+                data.majorSentence = pr.premise(data.statements[0], data.statements[1], data.one);
+                data.minorSentence = pr.premise(data.statements[1], data.statements[2], data.two);
+                data.conclusionSentence = pr.conclusion(data.statements[2], data.statements[0], data.three);
                 break;
             default:
                 data.majorSentence = "Error!";
                 data.minorSentence = "Error!";
-                data.concSentence = "Error!";
+                data.conclusionSentence = "Error!";
         }
         return data;
     }
