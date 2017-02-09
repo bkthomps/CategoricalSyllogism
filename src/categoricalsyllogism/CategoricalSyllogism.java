@@ -1,7 +1,7 @@
 package categoricalsyllogism;
 
 /**
- * Entry point.
+ * Entry point. The program starts here.
  */
 class CategoricalSyllogism {
 
