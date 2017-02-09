@@ -1,7 +1,7 @@
 package categoricalsyllogism;
 
 /**
- * Holds data.
+ * Holds data. This data is used throughout the program to compute syllogisms and to create venn diagrams.
  */
 class Data {
 
@@ -9,15 +9,15 @@ class Data {
     char two;
     char three;
     int four;
-    boolean middleFal;
-    boolean majorFal;
-    boolean minorFal;
-    boolean exclusiveFal;
-    boolean affirmativeFal;
-    boolean existentialFal;
-    boolean valid;
-    final String[] words = new String[3];
+    boolean middleFallacy;
+    boolean majorFallacy;
+    boolean minorFallacy;
+    boolean exclusiveFallacy;
+    boolean affirmativeFallacy;
+    boolean existentialFallacy;
+    boolean validSyllogism;
+    final String[] statements = new String[3];
     String majorSentence;
     String minorSentence;
-    String concSentence;
+    String conclusionSentence;
 }
