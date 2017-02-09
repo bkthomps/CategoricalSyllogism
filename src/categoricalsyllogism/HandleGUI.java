@@ -17,46 +17,53 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * Displays the GUI.
+ * Displays the GUI. Vertically, the application is split into three sections, the top one being the statements, the
+ * validity of the syllogism (valid or invalid) and the classification of the statements (ex: AAA-1). The middle section
+ * in vertical terms is the fallacies and the venn diagram. The bottom section vertically is the credits, the syllogism
+ * info, and the buttons. For the validity of the syllogism, "Valid" will be displayed in green to indicate that it is
+ * valid, and "Invalid" will be displayed to indicate that it is invalid. For each fallacy, it will be green if the
+ * fallacy was not committed, and red if the fallacy was committed. Thus, to have a green "Valid" syllogism, all
+ * fallacy labels must be green.
  */
 class HandleGUI {
 
-    private static final String SPACE = "   ";
-    private static final String BIG_SPACE = "                        ";
-    private static final Color BAD_COLOUR = Color.red;
-    private static final Color GOOD_COLOUR = new Color(33, 191, 55);
-    private static final int MAX_LENGTH = 25;
-
-    private int[][] grid = new int[13][15];
-
     private static final String NAME = "Categorical Syllogism";
     private static final ImageIcon ICON = new ImageIcon("Socrates.png");
+    private static final String SPACE = "   ";
+    private static final String BIG_SPACE = "                        ";
+    private static final Color BAD_COLOR = Color.red;
+    private static final Color GOOD_COLOR = new Color(33, 191, 55);
+    private static final int MAX_LENGTH = 25;
+    private static final String ERROR_MESSAGE = "Error!";
+
+    private VennLogic.GridColor[][] grid = new VennLogic.GridColor[13][15];
+
     private final JFrame frame = new JFrame(NAME);
-    private final JPanel panTop = new JPanel(); //going to have pan1 and pan2
-    private final JPanel pan1 = new JPanel(); //going to have the three statements
-    private final JPanel pan2 = new JPanel(); //going to have the classification and the validity
-    private final JPanel pan3 = new JPanel(); //going to have fallacies and venn diagram
-    private final JPanel pan4 = new JPanel(); //going to have info
-    private final JPanel pan5 = new JPanel(); //going to have the four buttons
-    private final JPanel panBot = new JPanel(); //going to have pan4 and pan5
-    private final JPanel pan3sub1 = new JPanel(); //for fallacies
-    private final JLabel pan3sub2 = new JLabel(); //for venn diagram
-    private final JLabel pan4sub1 = new JLabel(SPACE + "Made by Bailey Thompson"); //for credits
-    private final JPanel pan4sub2 = new JPanel(); //for info of venn diagram
-    private final JLabel pan4sub2Lab1 = new JLabel();
-    private final JLabel pan4sub2Lab2 = new JLabel();
-    private final JLabel pan4sub2Lab3 = new JLabel();
-    private final JLabel pan1Lab1 = new JLabel("Error!"); //for major
-    private final JLabel pan1Lab2 = new JLabel("Error!"); //for minor
-    private final JLabel pan1Lab3 = new JLabel("Error!"); //for conclusion
-    private final JLabel pan2Lab1 = new JLabel("Error!"); //for classification (ex: AAA-1)
-    private final JLabel pan2Lab2 = new JLabel("Error!"); //for validity
-    private final JLabel pan3Lab1 = new JLabel("Error!"); //for middle fallacy
-    private final JLabel pan3Lab2 = new JLabel("Error!"); //for major fallacy
-    private final JLabel pan3Lab3 = new JLabel("Error!"); //for minor fallacy
-    private final JLabel pan3Lab4 = new JLabel("Error!"); //for exclusive fallacy
-    private final JLabel pan3Lab5 = new JLabel("Error!"); //for affirmative fallacy
-    private final JLabel pan3Lab6 = new JLabel("Error!"); //for existential fallacy
+    private final JPanel statementsAndSyllogismInfo = new JPanel();
+    private final JPanel statements = new JPanel();
+    private final JPanel syllogismInfo = new JPanel();
+    private final JPanel fallaciesAndVennDiagram = new JPanel();
+    private final JPanel creditsAndVennInfo = new JPanel();
+    private final JPanel buttons = new JPanel();
+    private final JPanel creditsAndVennInfoAndButtons = new JPanel();
+    private final JPanel fallacyDisplay = new JPanel();
+    private final JLabel vennDisplay = new JLabel();
+    private final JLabel credits = new JLabel(SPACE + "Made by Bailey Thompson");
+    private final JPanel vennInfo = new JPanel();
+    private final JLabel vennInfoMajor = new JLabel();
+    private final JLabel vennInfoMinor = new JLabel();
+    private final JLabel vennInfoMiddle = new JLabel();
+    private final JLabel majorPremise = new JLabel(ERROR_MESSAGE);
+    private final JLabel minorPremise = new JLabel(ERROR_MESSAGE);
+    private final JLabel conclusion = new JLabel(ERROR_MESSAGE);
+    private final JLabel classification = new JLabel(ERROR_MESSAGE);
+    private final JLabel validity = new JLabel(ERROR_MESSAGE);
+    private final JLabel middleFallacy = new JLabel(ERROR_MESSAGE);
+    private final JLabel majorFallacy = new JLabel(ERROR_MESSAGE);
+    private final JLabel minorFallacy = new JLabel(ERROR_MESSAGE);
+    private final JLabel exclusiveFallacy = new JLabel(ERROR_MESSAGE);
+    private final JLabel affirmativeFallacy = new JLabel(ERROR_MESSAGE);
+    private final JLabel existentialFallacy = new JLabel(ERROR_MESSAGE);
     private final JButton btnExit = new JButton("Exit");
     private final JButton btnAdd = new JButton("Add");
     private final JButton btnNext = new JButton("Next");
@@ -69,55 +76,55 @@ class HandleGUI {
         frame.setIconImage(ICON.getImage());
         frame.setVisible(true);
 
-        pan3sub2.setLayout(new GridLayout());
-        pan3sub2.add(new GridPane());
+        vennDisplay.setLayout(new GridLayout());
+        vennDisplay.add(new GridPane());
 
-        pan1.add(pan1Lab1);
-        pan1.add(pan1Lab2);
-        pan1.add(pan1Lab3);
-        pan1.setLayout(new GridLayout(3, 1, 0, 0));
+        statements.add(majorPremise);
+        statements.add(minorPremise);
+        statements.add(conclusion);
+        statements.setLayout(new GridLayout(3, 1, 0, 0));
 
-        pan2.add(pan2Lab2);
-        pan2.add(pan2Lab1);
-        pan2.setLayout(new GridLayout(1, 2, 0, 0));
+        syllogismInfo.add(validity);
+        syllogismInfo.add(classification);
+        syllogismInfo.setLayout(new GridLayout(1, 2, 0, 0));
 
-        pan3sub1.add(pan3Lab1);
-        pan3sub1.add(pan3Lab2);
-        pan3sub1.add(pan3Lab3);
-        pan3sub1.add(pan3Lab4);
-        pan3sub1.add(pan3Lab5);
-        pan3sub1.add(pan3Lab6);
-        pan3sub1.setLayout(new GridLayout(6, 1, 0, 0));
+        fallacyDisplay.add(middleFallacy);
+        fallacyDisplay.add(majorFallacy);
+        fallacyDisplay.add(minorFallacy);
+        fallacyDisplay.add(exclusiveFallacy);
+        fallacyDisplay.add(affirmativeFallacy);
+        fallacyDisplay.add(existentialFallacy);
+        fallacyDisplay.setLayout(new GridLayout(6, 1, 0, 0));
 
-        pan3.add(pan3sub1);
-        pan3.add(pan3sub2);
-        pan3.setLayout(new GridLayout(1, 2, 0, 0));
+        fallaciesAndVennDiagram.add(fallacyDisplay);
+        fallaciesAndVennDiagram.add(vennDisplay);
+        fallaciesAndVennDiagram.setLayout(new GridLayout(1, 2, 0, 0));
 
-        pan4sub2.add(pan4sub2Lab1);
-        pan4sub2.add(pan4sub2Lab2);
-        pan4sub2.add(pan4sub2Lab3);
-        pan4sub2.setLayout(new GridLayout(3, 1, 0, 0));
+        vennInfo.add(vennInfoMajor);
+        vennInfo.add(vennInfoMinor);
+        vennInfo.add(vennInfoMiddle);
+        vennInfo.setLayout(new GridLayout(3, 1, 0, 0));
 
-        pan4.add(pan4sub1);
-        pan4.add(pan4sub2);
-        pan4.setLayout(new GridLayout(1, 2, 0, 0));
+        creditsAndVennInfo.add(credits);
+        creditsAndVennInfo.add(vennInfo);
+        creditsAndVennInfo.setLayout(new GridLayout(1, 2, 0, 0));
 
-        pan5.add(btnExit);
-        pan5.add(btnAdd);
-        pan5.add(btnNext);
-        pan5.setLayout(new GridLayout(1, 3, 0, 0));
+        buttons.add(btnExit);
+        buttons.add(btnAdd);
+        buttons.add(btnNext);
+        buttons.setLayout(new GridLayout(1, 3, 0, 0));
 
-        panTop.add(pan1);
-        panTop.add(pan2);
-        panTop.setLayout(new GridLayout(2, 1, 0, 0));
+        statementsAndSyllogismInfo.add(statements);
+        statementsAndSyllogismInfo.add(syllogismInfo);
+        statementsAndSyllogismInfo.setLayout(new GridLayout(2, 1, 0, 0));
 
-        panBot.add(pan4);
-        panBot.add(pan5);
-        panBot.setLayout(new GridLayout(2, 1, 0, 0));
+        creditsAndVennInfoAndButtons.add(creditsAndVennInfo);
+        creditsAndVennInfoAndButtons.add(buttons);
+        creditsAndVennInfoAndButtons.setLayout(new GridLayout(2, 1, 0, 0));
 
-        frame.add(panTop);
-        frame.add(pan3);
-        frame.add(panBot);
+        frame.add(statementsAndSyllogismInfo);
+        frame.add(fallaciesAndVennDiagram);
+        frame.add(creditsAndVennInfoAndButtons);
         frame.setLayout(new GridLayout(3, 1, 0, 0));
 
         buttonPress();
@@ -136,40 +143,40 @@ class HandleGUI {
         RunLogic logic = new RunLogic();
         Data data = logic.doLogic();
 
-        pan1Lab1.setText(SPACE + data.majorSentence);
-        pan1Lab2.setText(SPACE + data.minorSentence);
-        pan1Lab3.setText(SPACE + data.concSentence);
+        majorPremise.setText(SPACE + data.majorSentence);
+        minorPremise.setText(SPACE + data.minorSentence);
+        conclusion.setText(SPACE + data.conclusionSentence);
 
-        pan2Lab1.setText(BIG_SPACE + data.one + "" + data.two + "" + data.three + "-" + Integer.toString(data.four));
-        if (data.valid) {
-            pan2Lab1.setForeground(GOOD_COLOUR);
-            pan2Lab2.setForeground(GOOD_COLOUR);
-            pan2Lab2.setText(BIG_SPACE + "Valid");
+        classification.setText(BIG_SPACE + data.one + "" + data.two + "" + data.three + "-" + Integer.toString(data.four));
+        if (data.validSyllogism) {
+            classification.setForeground(GOOD_COLOR);
+            validity.setForeground(GOOD_COLOR);
+            validity.setText(BIG_SPACE + "Valid");
         } else {
-            pan2Lab1.setForeground(BAD_COLOUR);
-            pan2Lab2.setForeground(BAD_COLOUR);
-            pan2Lab2.setText(BIG_SPACE + "Invalid");
+            classification.setForeground(BAD_COLOR);
+            validity.setForeground(BAD_COLOR);
+            validity.setText(BIG_SPACE + "Invalid");
         }
 
-        pan3Lab1.setText(SPACE + "Undistributed middle");
-        pan3Lab2.setText(SPACE + "Illicit process of major term");
-        pan3Lab3.setText(SPACE + "Illicit process of minor term");
-        pan3Lab4.setText(SPACE + "Exclusive premises");
-        pan3Lab5.setText(SPACE + "Affirmative conclusion");
-        pan3Lab6.setText(SPACE + "Existential fallacy");
+        middleFallacy.setText(SPACE + "Undistributed middle");
+        majorFallacy.setText(SPACE + "Illicit process of major term");
+        minorFallacy.setText(SPACE + "Illicit process of minor term");
+        exclusiveFallacy.setText(SPACE + "Exclusive premises");
+        affirmativeFallacy.setText(SPACE + "Affirmative conclusion");
+        existentialFallacy.setText(SPACE + "Existential fallacy");
 
-        pan3Lab1.setForeground((data.middleFal) ? (BAD_COLOUR) : (GOOD_COLOUR));
-        pan3Lab2.setForeground((data.majorFal) ? (BAD_COLOUR) : (GOOD_COLOUR));
-        pan3Lab3.setForeground((data.minorFal) ? (BAD_COLOUR) : (GOOD_COLOUR));
-        pan3Lab4.setForeground((data.exclusiveFal) ? (BAD_COLOUR) : (GOOD_COLOUR));
-        pan3Lab5.setForeground((data.affirmativeFal) ? (BAD_COLOUR) : (GOOD_COLOUR));
-        pan3Lab6.setForeground((data.existentialFal) ? (BAD_COLOUR) : (GOOD_COLOUR));
+        middleFallacy.setForeground((data.middleFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        majorFallacy.setForeground((data.majorFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        minorFallacy.setForeground((data.minorFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        exclusiveFallacy.setForeground((data.exclusiveFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        affirmativeFallacy.setForeground((data.affirmativeFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        existentialFallacy.setForeground((data.existentialFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
 
-        pan3sub2.setIcon(new ImageIcon("Assets/Format/" + data.four + ".png"));
+        vennDisplay.setIcon(new ImageIcon("Assets/Format/" + data.four + ".png"));
 
-        pan4sub2Lab1.setText("Top Left:    " + data.words[0]);
-        pan4sub2Lab2.setText("Top Right:  " + data.words[2]);
-        pan4sub2Lab3.setText("Bottom:      " + data.words[1]);
+        vennInfoMajor.setText("Top Left:    " + data.statements[0]);
+        vennInfoMinor.setText("Top Right:  " + data.statements[2]);
+        vennInfoMiddle.setText("Bottom:      " + data.statements[1]);
 
         doVenn(data);
     }
@@ -253,19 +260,19 @@ class HandleGUI {
                 for (int horizontal = 0; horizontal < 15; horizontal++) {
                     Rectangle cell = cells.get(horizontal + vertical * 15);
                     switch (grid[vertical][horizontal]) {
-                        case 0:
+                        case WHITE:
                             g2d.setColor(Color.WHITE);
                             break;
-                        case 1:
+                        case BLACK:
                             g2d.setColor(Color.BLACK);
                             break;
-                        case 2:
+                        case GREEN:
                             g2d.setColor(Color.GREEN);
                             break;
-                        case 3:
+                        case RED:
                             g2d.setColor(Color.RED);
                             break;
-                        case 4:
+                        case ORANGE:
                             g2d.setColor(Color.ORANGE);
                             break;
                     }
