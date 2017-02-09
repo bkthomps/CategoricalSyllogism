@@ -1,7 +1,7 @@
 package categoricalsyllogism;
 
 /**
- * Determines which fallacies are true based on three letters and one number combo.
+ * Determines which fallacies are committed based on three letters and one number combo.
  */
 class Fallacies {
 
@@ -9,62 +9,32 @@ class Fallacies {
         boolean ret = false;
         switch (one) {
             case 'I':
-                if (two == 'I') {
-                    ret = true;
-                } else if (two == 'O' && (four == 3 || four == 4)) {
-                    ret = true;
-                } else if (two == 'A' && (four == 1 || four == 2)) {
-                    ret = true;
-                }
+                ret = (two == 'I')
+                        || (two == 'O' && (four == 3 || four == 4))
+                        || (two == 'A' && (four == 1 || four == 2));
                 break;
             case 'O':
-                if (two == 'I' && (four == 1 || four == 3)) {
-                    ret = true;
-                } else if (two == 'O' && four == 3) {
-                    ret = true;
-                } else if (two == 'A' && four == 1) {
-                    ret = true;
-                }
+                ret = (two == 'I' && (four == 1 || four == 3))
+                        || (two == 'O' && four == 3)
+                        || (two == 'A' && four == 1);
                 break;
             case 'A':
-                if (two == 'I' && (four == 2 || four == 4)) {
-                    ret = true;
-                } else if (two == 'O' && four == 4) {
-                    ret = true;
-                } else if (two == 'A' && four == 2) {
-                    ret = true;
-                }
+                ret = (two == 'I' && (four == 2 || four == 4))
+                        || (two == 'O' && four == 4)
+                        || (two == 'A' && four == 2);
                 break;
         }
         return ret;
     }
 
     boolean major(char one, char three, int four) {
-        boolean ret = false;
-        if (negative(three)) {
-            if (one == 'I') {
-                ret = true;
-            } else if (one == 'O' && (four == 2 || four == 4)) {
-                ret = true;
-            } else if (one == 'A' && (four == 1 || four == 3)) {
-                ret = true;
-            }
-        }
-        return ret;
+        return (negative(three)) && ((one == 'I') || (one == 'O' && (four == 2 || four == 4))
+                || (one == 'A' && (four == 1 || four == 3)));
     }
 
     boolean minor(char two, char three, int four) {
-        boolean ret = false;
-        if (absolute(three)) {
-            if (two == 'I') {
-                ret = true;
-            } else if (two == 'O' && (four == 1 || four == 2)) {
-                ret = true;
-            } else if (two == 'A' && (four == 3 || four == 4)) {
-                ret = true;
-            }
-        }
-        return ret;
+        return (absolute(three)) && ((two == 'I') || (two == 'O' && (four == 1 || four == 2))
+                || (two == 'A' && (four == 3 || four == 4)));
     }
 
     boolean exclusive(char one, char two) {
