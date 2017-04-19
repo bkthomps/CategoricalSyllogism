@@ -23,6 +23,7 @@ class Print {
                 sentence = "Some " + one + " are not " + two + ".";
                 break;
             default:
+                System.err.println("Error in Print.premise: hit default.");
                 sentence = "Error!";
                 break;
         }

@@ -53,6 +53,7 @@ class RunLogic {
                 data.conclusionSentence = pr.conclusion(data.statements[2], data.statements[0], data.three);
                 break;
             default:
+                System.err.println("Error in RunLogic.doLogic: hit default.");
                 data.majorSentence = "Error!";
                 data.minorSentence = "Error!";
                 data.conclusionSentence = "Error!";

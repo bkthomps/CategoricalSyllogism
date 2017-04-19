@@ -225,6 +225,9 @@ class VennLogic {
                 grid[5][7] = FILLED_IN_COLOR;
                 grid[6][7] = FILLED_IN_COLOR;
                 break;
+            default:
+                System.err.println("Error in VennLogic.colorInSection: invalid section.");
+                break;
         }
     }
 }

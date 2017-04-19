@@ -33,15 +33,15 @@ class SaveOrLoad {
                     saveFile = line;
                 }
             } catch (IOException e) {
-                System.err.println("Error 1 in load method");
+                System.err.println("Error in SaveOrLoad.load: could not open file.");
             }
         } catch (IOException x) {
-            System.err.println("Error 2 in load method");
+            System.err.println("Error in SaveOrLoad.load: could not create file.");
         }
         if (saveFile == null) {
             saveFile = "Bailey's_sentient_robots cats cows dogs elephants foxes grenades russians germans austrians";
         }
-        //create String array from String that is separated by spaces
+        // Create String array from String that is separated by spaces
         String[] database = saveFile.split("\\s+");
         for (int i = 0; i < database.length; i++) {
             database[i] = database[i].replaceAll("_", " ");
@@ -52,13 +52,13 @@ class SaveOrLoad {
     void save(String[] database) {
         String saveFile = database[0].replaceAll(" ", "_");
         for (int i = 1; i < database.length; i++) {
-            saveFile = saveFile + " " + database[i].replaceAll(" ", "_");
+            saveFile += " " + database[i].replaceAll(" ", "_");
         }
         byte data[] = saveFile.getBytes();
         try (OutputStream out = new BufferedOutputStream(Files.newOutputStream(FILE, WRITE, TRUNCATE_EXISTING))) {
             out.write(data, 0, data.length);
         } catch (IOException x) {
-            System.err.println("Error in save method");
+            System.err.println("Error in SaveOrLoad.save: could not open or write to file.");
         }
     }
 }

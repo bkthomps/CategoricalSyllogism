@@ -29,7 +29,7 @@ class Generate {
                 gen = 'O';
                 break;
             default:
-                System.err.println("Error in Generate class character method!");
+                System.err.println("Error in Generate.character: hit default.");
                 gen = 'A';
                 break;
         }

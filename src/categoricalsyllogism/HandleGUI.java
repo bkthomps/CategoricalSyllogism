@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 /**
  * Displays the GUI. Vertically, the application is split into three sections, the top one being the statements, the
@@ -69,7 +70,7 @@ class HandleGUI {
     private final JButton btnNext = new JButton("Next");
 
     void createGUI() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(400, 400);
         frame.setLocationRelativeTo(null);
