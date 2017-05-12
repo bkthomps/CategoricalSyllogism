@@ -1,2 +1,2 @@
 # CategoricalSyllogism
-Categorical syllogisms are randomly generated using words in a word bank that users can add to. The statements are then deemed to be valid or invalid, and an accompanying venn diagram is created. If a statement is invalid, the fallacies it has committed  are stated.
+Categorical syllogisms are generated from a user-customisable word bank. The fallacies the syllogism has committed — if any — are displayed. For each syllogism, a Venn diagram is also created.
