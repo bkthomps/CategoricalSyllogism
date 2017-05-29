@@ -13,26 +13,8 @@ class Generate {
     }
 
     char character() {
-        char gen;
-        int num = number();
-        switch (num) {
-            case 1:
-                gen = 'A';
-                break;
-            case 2:
-                gen = 'E';
-                break;
-            case 3:
-                gen = 'I';
-                break;
-            case 4:
-                gen = 'O';
-                break;
-            default:
-                System.err.println("Error in Generate.character: hit default.");
-                gen = 'A';
-                break;
-        }
-        return gen;
+        char[] letters = {'A', 'E', 'I', 'O'};
+        int index = number() - 1;
+        return letters[index];
     }
 }

@@ -9,7 +9,7 @@ class VennLogic {
     enum GridColor {WHITE, BLACK, GREEN, RED, ORANGE}
 
     GridColor[][] makeGrid(char one, char two, int four) {
-        GridColor[][] grid = new GridColor[13][15];
+        GridColor[][] grid = new GridColor[HandleGUI.GRID_VERTICAL_LENGTH][HandleGUI.GRID_HORIZONTAL_LENGTH];
         setToZero(grid);
         setBlack(grid);
         addColor(grid, one, two, four);
@@ -17,8 +17,8 @@ class VennLogic {
     }
 
     private void setToZero(GridColor[][] grid) {
-        for (int y = 0; y < 13; y++) {
-            for (int x = 0; x < 15; x++) {
+        for (int y = 0; y < HandleGUI.GRID_VERTICAL_LENGTH; y++) {
+            for (int x = 0; x < HandleGUI.GRID_HORIZONTAL_LENGTH; x++) {
                 grid[y][x] = GridColor.WHITE;
             }
         }

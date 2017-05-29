@@ -28,7 +28,10 @@ import javax.swing.WindowConstants;
  */
 class HandleGUI {
 
-    private static final String NAME = "Categorical Syllogism";
+    static final String NAME = "Categorical Syllogism";
+    static final int GRID_VERTICAL_LENGTH = 13;
+    static final int GRID_HORIZONTAL_LENGTH = 15;
+
     private static final ImageIcon ICON = new ImageIcon("Socrates.png");
     private static final String SPACE = "   ";
     private static final String BIG_SPACE = "                        ";
@@ -37,7 +40,7 @@ class HandleGUI {
     private static final int MAX_LENGTH = 25;
     private static final String ERROR_MESSAGE = "Error!";
 
-    private VennLogic.GridColor[][] grid = new VennLogic.GridColor[13][15];
+    private VennLogic.GridColor[][] grid = new VennLogic.GridColor[GRID_VERTICAL_LENGTH][GRID_HORIZONTAL_LENGTH];
 
     private final JFrame frame = new JFrame(NAME);
     private final JPanel statementsAndSyllogismInfo = new JPanel();
@@ -134,22 +137,21 @@ class HandleGUI {
 
     private void buttonPress() {
         btnExit.addActionListener((ActionEvent e) -> System.exit(0));
-
         btnAdd.addActionListener((ActionEvent e) -> doAdd());
-
         btnNext.addActionListener((ActionEvent e) -> updateGUI());
     }
 
     private void updateGUI() {
         RunLogic logic = new RunLogic();
-        Data data = logic.doLogic();
+        Syllogism syllogism = logic.doLogic();
 
-        majorPremise.setText(SPACE + data.majorSentence);
-        minorPremise.setText(SPACE + data.minorSentence);
-        conclusion.setText(SPACE + data.conclusionSentence);
+        majorPremise.setText(SPACE + syllogism.majorSentence);
+        minorPremise.setText(SPACE + syllogism.minorSentence);
+        conclusion.setText(SPACE + syllogism.conclusionSentence);
 
-        classification.setText(BIG_SPACE + data.one + "" + data.two + "" + data.three + "-" + Integer.toString(data.four));
-        if (data.validSyllogism) {
+        classification.setText(BIG_SPACE + syllogism.one + "" + syllogism.two + "" + syllogism.three + "-"
+                + Integer.toString(syllogism.four));
+        if (syllogism.validSyllogism) {
             classification.setForeground(GOOD_COLOR);
             validity.setForeground(GOOD_COLOR);
             validity.setText(BIG_SPACE + "Valid");
@@ -166,20 +168,20 @@ class HandleGUI {
         affirmativeFallacy.setText(SPACE + "Affirmative conclusion");
         existentialFallacy.setText(SPACE + "Existential fallacy");
 
-        middleFallacy.setForeground((data.middleFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        majorFallacy.setForeground((data.majorFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        minorFallacy.setForeground((data.minorFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        exclusiveFallacy.setForeground((data.exclusiveFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        affirmativeFallacy.setForeground((data.affirmativeFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        existentialFallacy.setForeground((data.existentialFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        middleFallacy.setForeground((syllogism.middleFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        majorFallacy.setForeground((syllogism.majorFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        minorFallacy.setForeground((syllogism.minorFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        exclusiveFallacy.setForeground((syllogism.exclusiveFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        affirmativeFallacy.setForeground((syllogism.affirmativeFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        existentialFallacy.setForeground((syllogism.existentialFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
 
-        vennDisplay.setIcon(new ImageIcon("Assets/Format/" + data.four + ".png"));
+        vennDisplay.setIcon(new ImageIcon("Assets/Format/" + syllogism.four + ".png"));
 
-        vennInfoMajor.setText("Top Left:    " + data.statements[0]);
-        vennInfoMinor.setText("Top Right:  " + data.statements[2]);
-        vennInfoMiddle.setText("Bottom:      " + data.statements[1]);
+        vennInfoMajor.setText("Top Left:    " + syllogism.statements[0]);
+        vennInfoMinor.setText("Top Right:  " + syllogism.statements[2]);
+        vennInfoMiddle.setText("Bottom:      " + syllogism.statements[1]);
 
-        doVenn(data);
+        doVenn(syllogism);
     }
 
     private void doAdd() {
@@ -212,19 +214,17 @@ class HandleGUI {
     }
 
     private boolean existent(String newWord, String[] database) {
-        boolean used = false;
-        for (String database1 : database) {
-            if (newWord.equals(database1)) {
-                used = true;
-                break;
+        for (String entry : database) {
+            if (newWord.equals(entry)) {
+                return true;
             }
         }
-        return used;
+        return false;
     }
 
-    private void doVenn(Data data) {
+    private void doVenn(Syllogism syllogism) {
         VennLogic venn = new VennLogic();
-        grid = venn.makeGrid(data.one, data.two, data.four);
+        grid = venn.makeGrid(syllogism.one, syllogism.two, syllogism.four);
     }
 
     public class GridPane extends JPanel {
@@ -232,7 +232,7 @@ class HandleGUI {
         final List<Rectangle> cells;
 
         GridPane() {
-            cells = new ArrayList<>(13 * 15);
+            cells = new ArrayList<>(GRID_VERTICAL_LENGTH * GRID_HORIZONTAL_LENGTH);
         }
 
         @Override
@@ -246,20 +246,20 @@ class HandleGUI {
             Graphics2D g2d = (Graphics2D) g.create();
             int width = getWidth();
             int height = getHeight();
-            int cellWidth = width / 15;
-            int cellHeight = height / 13;
+            int cellWidth = width / GRID_HORIZONTAL_LENGTH;
+            int cellHeight = height / GRID_VERTICAL_LENGTH;
             if (cells.isEmpty()) {
-                for (int row = 0; row < 13; row++) {
-                    for (int col = 0; col < 15; col++) {
-                        Rectangle cell = new Rectangle(+(col * cellWidth), +(row * cellHeight), cellWidth, cellHeight);
+                for (int row = 0; row < GRID_VERTICAL_LENGTH; row++) {
+                    for (int col = 0; col < GRID_HORIZONTAL_LENGTH; col++) {
+                        Rectangle cell = new Rectangle(col * cellWidth, row * cellHeight, cellWidth, cellHeight);
                         cells.add(cell);
                     }
                 }
             }
 
-            for (int vertical = 0; vertical < 13; vertical++) {
-                for (int horizontal = 0; horizontal < 15; horizontal++) {
-                    Rectangle cell = cells.get(horizontal + vertical * 15);
+            for (int vertical = 0; vertical < GRID_VERTICAL_LENGTH; vertical++) {
+                for (int horizontal = 0; horizontal < GRID_HORIZONTAL_LENGTH; horizontal++) {
+                    Rectangle cell = cells.get(horizontal + vertical * GRID_HORIZONTAL_LENGTH);
                     switch (grid[vertical][horizontal]) {
                         case WHITE:
                             g2d.setColor(Color.WHITE);

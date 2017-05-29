@@ -6,58 +6,62 @@ package categoricalsyllogism;
  */
 class RunLogic {
 
-    Data doLogic() {
-        Data data = new Data();
+    Syllogism doLogic() {
+        Syllogism syllogism = new Syllogism();
 
         Generate gen = new Generate();
-        data.one = gen.character();
-        data.two = gen.character();
-        data.three = gen.character();
-        data.four = gen.number();
+        syllogism.one = gen.character();
+        syllogism.two = gen.character();
+        syllogism.three = gen.character();
+        syllogism.four = gen.number();
 
         Fallacies fal = new Fallacies();
-        data.middleFallacy = fal.middle(data.one, data.two, data.four);
-        data.majorFallacy = fal.major(data.one, data.three, data.four);
-        data.minorFallacy = fal.minor(data.two, data.three, data.four);
-        data.exclusiveFallacy = fal.exclusive(data.one, data.two);
-        data.affirmativeFallacy = fal.affirmative(data.one, data.two, data.three);
-        data.existentialFallacy = fal.existential(data.one, data.two, data.three);
-        data.validSyllogism = !data.middleFallacy && !data.majorFallacy && !data.minorFallacy && !data.exclusiveFallacy
-                && !data.affirmativeFallacy && !data.existentialFallacy;
+        syllogism.middleFallacy = fal.middle(syllogism.one, syllogism.two, syllogism.four);
+        syllogism.majorFallacy = fal.major(syllogism.one, syllogism.three, syllogism.four);
+        syllogism.minorFallacy = fal.minor(syllogism.two, syllogism.three, syllogism.four);
+        syllogism.exclusiveFallacy = fal.exclusive(syllogism.one, syllogism.two);
+        syllogism.affirmativeFallacy = fal.affirmative(syllogism.one, syllogism.two, syllogism.three);
+        syllogism.existentialFallacy = fal.existential(syllogism.one, syllogism.two, syllogism.three);
+        syllogism.validSyllogism = !syllogism.middleFallacy && !syllogism.majorFallacy && !syllogism.minorFallacy
+                && !syllogism.exclusiveFallacy && !syllogism.affirmativeFallacy && !syllogism.existentialFallacy;
 
         PickWords wordChoose = new PickWords();
-        data.statements[0] = wordChoose.pick();
-        data.statements[1] = wordChoose.pick(data.statements[0]);
-        data.statements[2] = wordChoose.pick(data.statements[0], data.statements[1]);
+        syllogism.statements[0] = wordChoose.pick();
+        syllogism.statements[1] = wordChoose.pick(syllogism.statements[0]);
+        syllogism.statements[2] = wordChoose.pick(syllogism.statements[0], syllogism.statements[1]);
 
         Print pr = new Print();
-        switch (data.four) {
+        switch (syllogism.four) {
             case 1:
-                data.majorSentence = pr.premise(data.statements[1], data.statements[0], data.one);
-                data.minorSentence = pr.premise(data.statements[2], data.statements[1], data.two);
-                data.conclusionSentence = pr.conclusion(data.statements[2], data.statements[0], data.three);
+                syllogism.majorSentence = pr.premise(syllogism.statements[1], syllogism.statements[0], syllogism.one);
+                syllogism.minorSentence = pr.premise(syllogism.statements[2], syllogism.statements[1], syllogism.two);
+                syllogism.conclusionSentence = pr.conclusion(syllogism.statements[2], syllogism.statements[0],
+                        syllogism.three);
                 break;
             case 2:
-                data.majorSentence = pr.premise(data.statements[0], data.statements[1], data.one);
-                data.minorSentence = pr.premise(data.statements[2], data.statements[1], data.two);
-                data.conclusionSentence = pr.conclusion(data.statements[2], data.statements[0], data.three);
+                syllogism.majorSentence = pr.premise(syllogism.statements[0], syllogism.statements[1], syllogism.one);
+                syllogism.minorSentence = pr.premise(syllogism.statements[2], syllogism.statements[1], syllogism.two);
+                syllogism.conclusionSentence = pr.conclusion(syllogism.statements[2], syllogism.statements[0],
+                        syllogism.three);
                 break;
             case 3:
-                data.majorSentence = pr.premise(data.statements[1], data.statements[0], data.one);
-                data.minorSentence = pr.premise(data.statements[1], data.statements[2], data.two);
-                data.conclusionSentence = pr.conclusion(data.statements[2], data.statements[0], data.three);
+                syllogism.majorSentence = pr.premise(syllogism.statements[1], syllogism.statements[0], syllogism.one);
+                syllogism.minorSentence = pr.premise(syllogism.statements[1], syllogism.statements[2], syllogism.two);
+                syllogism.conclusionSentence = pr.conclusion(syllogism.statements[2], syllogism.statements[0],
+                        syllogism.three);
                 break;
             case 4:
-                data.majorSentence = pr.premise(data.statements[0], data.statements[1], data.one);
-                data.minorSentence = pr.premise(data.statements[1], data.statements[2], data.two);
-                data.conclusionSentence = pr.conclusion(data.statements[2], data.statements[0], data.three);
+                syllogism.majorSentence = pr.premise(syllogism.statements[0], syllogism.statements[1], syllogism.one);
+                syllogism.minorSentence = pr.premise(syllogism.statements[1], syllogism.statements[2], syllogism.two);
+                syllogism.conclusionSentence = pr.conclusion(syllogism.statements[2], syllogism.statements[0],
+                        syllogism.three);
                 break;
             default:
                 System.err.println("Error in RunLogic.doLogic: hit default.");
-                data.majorSentence = "Error!";
-                data.minorSentence = "Error!";
-                data.conclusionSentence = "Error!";
+                syllogism.majorSentence = "Error!";
+                syllogism.minorSentence = "Error!";
+                syllogism.conclusionSentence = "Error!";
         }
-        return data;
+        return syllogism;
     }
 }
