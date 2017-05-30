@@ -19,6 +19,8 @@ class Fallacies {
                 return (two == 'I' && (four == 2 || four == 4))
                         || (two == 'O' && four == 4)
                         || (two == 'A' && four == 2);
+            case 'E':
+                return false;
             default:
                 CategoricalSyllogism.errorPanic("hit default", "Fallacies.middle");
                 return false;
