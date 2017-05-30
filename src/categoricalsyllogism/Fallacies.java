@@ -6,25 +6,23 @@ package categoricalsyllogism;
 class Fallacies {
 
     boolean middle(char one, char two, int four) {
-        boolean ret = false;
         switch (one) {
             case 'I':
-                ret = (two == 'I')
+                return (two == 'I')
                         || (two == 'O' && (four == 3 || four == 4))
                         || (two == 'A' && (four == 1 || four == 2));
-                break;
             case 'O':
-                ret = (two == 'I' && (four == 1 || four == 3))
+                return (two == 'I' && (four == 1 || four == 3))
                         || (two == 'O' && four == 3)
                         || (two == 'A' && four == 1);
-                break;
             case 'A':
-                ret = (two == 'I' && (four == 2 || four == 4))
+                return (two == 'I' && (four == 2 || four == 4))
                         || (two == 'O' && four == 4)
                         || (two == 'A' && four == 2);
-                break;
+            default:
+                CategoricalSyllogism.errorPanic("hit default", "Fallacies.middle");
+                return false;
         }
-        return ret;
     }
 
     boolean major(char one, char three, int four) {

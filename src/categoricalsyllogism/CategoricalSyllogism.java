@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import java.util.Locale;
 
 /**
- * Entry point. The program starts here.
+ * Program start point as well as some startup and common methods.
  */
 class CategoricalSyllogism {
 
@@ -32,5 +32,10 @@ class CategoricalSyllogism {
         JOptionPane.showConfirmDialog(null, "Critical Error:\n" + errorText + "\nShutting Down.", HandleGUI.NAME,
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         System.exit(0);
+    }
+
+    static void errorPanic(String error, String location) {
+        System.err.println("Error in " + location + ": " + error + "!!");
+        System.exit(-1);
     }
 }

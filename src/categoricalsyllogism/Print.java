@@ -8,26 +8,19 @@ package categoricalsyllogism;
 class Print {
 
     String premise(String one, String two, char letter) {
-        String sentence;
         switch (letter) {
             case 'A':
-                sentence = "All " + one + " are " + two + ".";
-                break;
+                return "All " + one + " are " + two + ".";
             case 'E':
-                sentence = "No " + one + " are " + two + ".";
-                break;
+                return "No " + one + " are " + two + ".";
             case 'I':
-                sentence = "Some " + one + " are " + two + ".";
-                break;
+                return "Some " + one + " are " + two + ".";
             case 'O':
-                sentence = "Some " + one + " are not " + two + ".";
-                break;
+                return "Some " + one + " are not " + two + ".";
             default:
-                System.err.println("Error in Print.premise: hit default.");
-                sentence = "Error!";
-                break;
+                CategoricalSyllogism.errorPanic("hit default", "Print.premise");
+                return "Error!";
         }
-        return sentence;
     }
 
     String conclusion(String one, String two, char letter) {

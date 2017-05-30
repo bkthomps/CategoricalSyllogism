@@ -226,7 +226,7 @@ class VennLogic {
                 grid[6][7] = FILLED_IN_COLOR;
                 break;
             default:
-                System.err.println("Error in VennLogic.colorInSection: invalid section.");
+                CategoricalSyllogism.errorPanic("invalid section", "VennLogic.colorInSection");
                 break;
         }
     }

@@ -142,16 +142,15 @@ class HandleGUI {
     }
 
     private void updateGUI() {
-        RunLogic logic = new RunLogic();
-        Syllogism syllogism = logic.doLogic();
+        Syllogism syllogism = new Syllogism();
 
-        majorPremise.setText(SPACE + syllogism.majorSentence);
-        minorPremise.setText(SPACE + syllogism.minorSentence);
-        conclusion.setText(SPACE + syllogism.conclusionSentence);
+        majorPremise.setText(SPACE + syllogism.getMajorSentence());
+        minorPremise.setText(SPACE + syllogism.getMinorSentence());
+        conclusion.setText(SPACE + syllogism.getConclusionSentence());
 
-        classification.setText(BIG_SPACE + syllogism.one + "" + syllogism.two + "" + syllogism.three + "-"
-                + Integer.toString(syllogism.four));
-        if (syllogism.validSyllogism) {
+        classification.setText(BIG_SPACE + syllogism.getOne() + "" + syllogism.getTwo() + "" + syllogism.getThree()
+                + "-" + Integer.toString(syllogism.getFour()));
+        if (syllogism.getIsSyllogismValid()) {
             classification.setForeground(GOOD_COLOR);
             validity.setForeground(GOOD_COLOR);
             validity.setText(BIG_SPACE + "Valid");
@@ -168,18 +167,18 @@ class HandleGUI {
         affirmativeFallacy.setText(SPACE + "Affirmative conclusion");
         existentialFallacy.setText(SPACE + "Existential fallacy");
 
-        middleFallacy.setForeground((syllogism.middleFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        majorFallacy.setForeground((syllogism.majorFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        minorFallacy.setForeground((syllogism.minorFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        exclusiveFallacy.setForeground((syllogism.exclusiveFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        affirmativeFallacy.setForeground((syllogism.affirmativeFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
-        existentialFallacy.setForeground((syllogism.existentialFallacy) ? (BAD_COLOR) : (GOOD_COLOR));
+        middleFallacy.setForeground((syllogism.getMiddleFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        majorFallacy.setForeground((syllogism.getMajorFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        minorFallacy.setForeground((syllogism.getMinorFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        exclusiveFallacy.setForeground((syllogism.getExclusiveFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        affirmativeFallacy.setForeground((syllogism.getAffirmativeFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        existentialFallacy.setForeground((syllogism.getExistentialFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
 
-        vennDisplay.setIcon(new ImageIcon("Assets/Format/" + syllogism.four + ".png"));
+        vennDisplay.setIcon(new ImageIcon("Assets/Format/" + syllogism.getFour() + ".png"));
 
-        vennInfoMajor.setText("Top Left:    " + syllogism.statements[0]);
-        vennInfoMinor.setText("Top Right:  " + syllogism.statements[2]);
-        vennInfoMiddle.setText("Bottom:      " + syllogism.statements[1]);
+        vennInfoMajor.setText("Top Left:    " + syllogism.getMajorStatement());
+        vennInfoMinor.setText("Top Right:  " + syllogism.getMinorStatement());
+        vennInfoMiddle.setText("Bottom:      " + syllogism.getConclusionStatement());
 
         doVenn(syllogism);
     }
@@ -194,11 +193,14 @@ class HandleGUI {
             newWord = "";
         }
         while (existent(newWord, database) || newWord.length() > 25) {
-            String errorMessage = "Error!";
+            String errorMessage;
             if (existent(newWord, database)) {
                 errorMessage = "This word is already in the database.";
             } else if (newWord.length() > MAX_LENGTH) {
                 errorMessage = "Maximum of " + MAX_LENGTH + " characters.";
+            } else {
+                errorMessage = "Error!!";
+                CategoricalSyllogism.errorPanic("hit else", "HandleGUI.doAdd");
             }
             newWord = JOptionPane.showInputDialog(null, errorMessage, NAME, JOptionPane.PLAIN_MESSAGE);
             if (newWord == null) {
@@ -224,7 +226,7 @@ class HandleGUI {
 
     private void doVenn(Syllogism syllogism) {
         VennLogic venn = new VennLogic();
-        grid = venn.makeGrid(syllogism.one, syllogism.two, syllogism.four);
+        grid = venn.makeGrid(syllogism.getOne(), syllogism.getTwo(), syllogism.getFour());
     }
 
     public class GridPane extends JPanel {
@@ -275,6 +277,9 @@ class HandleGUI {
                             break;
                         case ORANGE:
                             g2d.setColor(Color.ORANGE);
+                            break;
+                        default:
+                            CategoricalSyllogism.errorPanic("hit default", "HandleGUI.GridPane.paintComponent");
                             break;
                     }
                     g2d.fill(cell);
