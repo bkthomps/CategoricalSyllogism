@@ -177,8 +177,8 @@ class HandleGUI {
         vennDisplay.setIcon(new ImageIcon("Assets/Format/" + syllogism.getFour() + ".png"));
 
         vennInfoMajor.setText("Top Left:    " + syllogism.getMajorStatement());
-        vennInfoMinor.setText("Top Right:  " + syllogism.getMinorStatement());
-        vennInfoMiddle.setText("Bottom:      " + syllogism.getConclusionStatement());
+        vennInfoMinor.setText("Top Right:  " + syllogism.getConclusionStatement());
+        vennInfoMiddle.setText("Bottom:      " + syllogism.getMinorStatement());
 
         doVenn(syllogism);
     }
