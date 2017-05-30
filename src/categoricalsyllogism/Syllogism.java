@@ -16,11 +16,11 @@ class Syllogism {
     private final boolean exclusiveFallacy;
     private final boolean affirmativeFallacy;
     private final boolean existentialFallacy;
-    private final boolean isSyllogismValid;
+    private final boolean syllogismValid;
 
-    private final String majorStatement;
-    private final String minorStatement;
-    private final String conclusionStatement;
+    private final String majorTerm;
+    private final String minorTerm;
+    private final String middleTerm;
 
     private final String majorSentence;
     private final String minorSentence;
@@ -40,31 +40,31 @@ class Syllogism {
         exclusiveFallacy = fallacy.exclusive(one, two);
         affirmativeFallacy = fallacy.affirmative(one, two, three);
         existentialFallacy = fallacy.existential(one, two, three);
-        isSyllogismValid = !middleFallacy && !majorFallacy && !minorFallacy
+        syllogismValid = !middleFallacy && !majorFallacy && !minorFallacy
                 && !exclusiveFallacy && !affirmativeFallacy && !existentialFallacy;
 
         PickWords wordChoose = new PickWords();
-        majorStatement = wordChoose.pick();
-        minorStatement = wordChoose.pick(majorStatement);
-        conclusionStatement = wordChoose.pick(majorStatement, minorStatement);
+        majorTerm = wordChoose.pick();
+        middleTerm = wordChoose.pick(majorTerm);
+        minorTerm = wordChoose.pick(majorTerm, middleTerm);
 
         Print print = new Print();
         switch (four) {
             case 1:
-                majorSentence = print.premise(minorStatement, majorStatement, one);
-                minorSentence = print.premise(conclusionStatement, minorStatement, two);
+                majorSentence = print.premise(middleTerm, majorTerm, one);
+                minorSentence = print.premise(minorTerm, middleTerm, two);
                 break;
             case 2:
-                majorSentence = print.premise(majorStatement, minorStatement, one);
-                minorSentence = print.premise(conclusionStatement, minorStatement, two);
+                majorSentence = print.premise(majorTerm, middleTerm, one);
+                minorSentence = print.premise(minorTerm, middleTerm, two);
                 break;
             case 3:
-                majorSentence = print.premise(minorStatement, majorStatement, one);
-                minorSentence = print.premise(minorStatement, conclusionStatement, two);
+                majorSentence = print.premise(middleTerm, majorTerm, one);
+                minorSentence = print.premise(middleTerm, minorTerm, two);
                 break;
             case 4:
-                majorSentence = print.premise(majorStatement, minorStatement, one);
-                minorSentence = print.premise(minorStatement, conclusionStatement, two);
+                majorSentence = print.premise(majorTerm, middleTerm, one);
+                minorSentence = print.premise(middleTerm, minorTerm, two);
                 break;
             default:
                 majorSentence = "Error!";
@@ -72,7 +72,7 @@ class Syllogism {
                 CategoricalSyllogism.errorPanic("hit default", "Syllogism.Syllogism");
                 break;
         }
-        conclusionSentence = print.conclusion(conclusionStatement, majorStatement, three);
+        conclusionSentence = print.conclusion(minorTerm, majorTerm, three);
     }
 
     char getOne() {
@@ -91,44 +91,44 @@ class Syllogism {
         return four;
     }
 
-    boolean getMiddleFallacy() {
+    boolean isMiddleFallacy() {
         return middleFallacy;
     }
 
-    boolean getMajorFallacy() {
+    boolean isMajorFallacy() {
         return majorFallacy;
     }
 
-    boolean getMinorFallacy() {
+    boolean isMinorFallacy() {
         return minorFallacy;
     }
 
-    boolean getExclusiveFallacy() {
+    boolean isExclusiveFallacy() {
         return exclusiveFallacy;
     }
 
-    boolean getAffirmativeFallacy() {
+    boolean isAffirmativeFallacy() {
         return affirmativeFallacy;
     }
 
-    boolean getExistentialFallacy() {
+    boolean isExistentialFallacy() {
         return existentialFallacy;
     }
 
-    boolean getIsSyllogismValid() {
-        return isSyllogismValid;
+    boolean isSyllogismValid() {
+        return syllogismValid;
     }
 
-    String getMajorStatement() {
-        return majorStatement;
+    String getMajorTerm() {
+        return majorTerm;
     }
 
-    String getMinorStatement() {
-        return minorStatement;
+    String getMinorTerm() {
+        return minorTerm;
     }
 
-    String getConclusionStatement() {
-        return conclusionStatement;
+    String getMiddleTerm() {
+        return middleTerm;
     }
 
     String getMajorSentence() {
