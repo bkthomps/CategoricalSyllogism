@@ -68,9 +68,9 @@ class HandleGUI {
     private final JLabel exclusiveFallacy = new JLabel(ERROR_MESSAGE);
     private final JLabel affirmativeFallacy = new JLabel(ERROR_MESSAGE);
     private final JLabel existentialFallacy = new JLabel(ERROR_MESSAGE);
-    private final JButton btnExit = new JButton("Exit");
-    private final JButton btnAdd = new JButton("Add");
-    private final JButton btnNext = new JButton("Next");
+    private final JButton exitApp = new JButton("Exit");
+    private final JButton addWords = new JButton("Add");
+    private final JButton nextSyllogism = new JButton("Next");
 
     void createGUI() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -113,9 +113,9 @@ class HandleGUI {
         creditsAndVennInfo.add(vennInfo);
         creditsAndVennInfo.setLayout(new GridLayout(1, 2, 0, 0));
 
-        buttons.add(btnExit);
-        buttons.add(btnAdd);
-        buttons.add(btnNext);
+        buttons.add(exitApp);
+        buttons.add(addWords);
+        buttons.add(nextSyllogism);
         buttons.setLayout(new GridLayout(1, 3, 0, 0));
 
         statementsAndSyllogismInfo.add(statements);
@@ -136,9 +136,9 @@ class HandleGUI {
     }
 
     private void buttonPress() {
-        btnExit.addActionListener((ActionEvent e) -> System.exit(0));
-        btnAdd.addActionListener((ActionEvent e) -> doAdd());
-        btnNext.addActionListener((ActionEvent e) -> updateGUI());
+        exitApp.addActionListener((ActionEvent e) -> System.exit(0));
+        addWords.addActionListener((ActionEvent e) -> doAdd());
+        nextSyllogism.addActionListener((ActionEvent e) -> updateGUI());
     }
 
     private void updateGUI() {
@@ -150,7 +150,7 @@ class HandleGUI {
 
         classification.setText(BIG_SPACE + syllogism.getOne() + "" + syllogism.getTwo() + "" + syllogism.getThree()
                 + "-" + Integer.toString(syllogism.getFour()));
-        if (syllogism.getIsSyllogismValid()) {
+        if (syllogism.isSyllogismValid()) {
             classification.setForeground(GOOD_COLOR);
             validity.setForeground(GOOD_COLOR);
             validity.setText(BIG_SPACE + "Valid");
@@ -167,18 +167,18 @@ class HandleGUI {
         affirmativeFallacy.setText(SPACE + "Affirmative conclusion");
         existentialFallacy.setText(SPACE + "Existential fallacy");
 
-        middleFallacy.setForeground((syllogism.getMiddleFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        majorFallacy.setForeground((syllogism.getMajorFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        minorFallacy.setForeground((syllogism.getMinorFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        exclusiveFallacy.setForeground((syllogism.getExclusiveFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        affirmativeFallacy.setForeground((syllogism.getAffirmativeFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        existentialFallacy.setForeground((syllogism.getExistentialFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        middleFallacy.setForeground((syllogism.isMiddleFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        majorFallacy.setForeground((syllogism.isMajorFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        minorFallacy.setForeground((syllogism.isMinorFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        exclusiveFallacy.setForeground((syllogism.isExclusiveFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        affirmativeFallacy.setForeground((syllogism.isAffirmativeFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        existentialFallacy.setForeground((syllogism.isExistentialFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
 
         vennDisplay.setIcon(new ImageIcon("Assets/Format/" + syllogism.getFour() + ".png"));
 
-        vennInfoMajor.setText("Top Left:    " + syllogism.getMajorStatement());
-        vennInfoMinor.setText("Top Right:  " + syllogism.getConclusionStatement());
-        vennInfoMiddle.setText("Bottom:      " + syllogism.getMinorStatement());
+        vennInfoMajor.setText("Top Left:    " + syllogism.getMajorTerm());
+        vennInfoMinor.setText("Top Right:  " + syllogism.getMinorTerm());
+        vennInfoMiddle.setText("Bottom:      " + syllogism.getMiddleTerm());
 
         doVenn(syllogism);
     }
