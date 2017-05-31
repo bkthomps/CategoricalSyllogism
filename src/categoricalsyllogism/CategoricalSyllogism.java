@@ -9,13 +9,13 @@ import java.util.Locale;
 class CategoricalSyllogism {
 
     public static void main(String[] args) {
-        CategoricalSyllogism categoricalSyllogism = new CategoricalSyllogism();
+        final CategoricalSyllogism categoricalSyllogism = new CategoricalSyllogism();
         categoricalSyllogism.startLogic();
     }
 
     private void startLogic() {
         checkOperatingSystem();
-        HandleGUI gui = new HandleGUI();
+        final HandleGUI gui = new HandleGUI();
         gui.createGUI();
     }
 

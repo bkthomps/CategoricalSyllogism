@@ -142,7 +142,7 @@ class HandleGUI {
     }
 
     private void updateGUI() {
-        Syllogism syllogism = new Syllogism();
+        final Syllogism syllogism = new Syllogism();
 
         majorPremise.setText(SPACE + syllogism.getMajorSentence());
         minorPremise.setText(SPACE + syllogism.getMinorSentence());
@@ -184,8 +184,8 @@ class HandleGUI {
     }
 
     private void doAdd() {
-        SaveOrLoad doLoadOrSave = new SaveOrLoad();
-        String[] database = doLoadOrSave.load();
+        final SaveOrLoad doLoadOrSave = new SaveOrLoad();
+        final String[] database = doLoadOrSave.load();
 
         String newWord = JOptionPane.showInputDialog(null, "Please input a new plural word.", NAME,
                 JOptionPane.PLAIN_MESSAGE);
@@ -193,7 +193,7 @@ class HandleGUI {
             newWord = "";
         }
         while (existent(newWord, database) || newWord.length() > 25) {
-            String errorMessage;
+            final String errorMessage;
             if (existent(newWord, database)) {
                 errorMessage = "This word is already in the database.";
             } else if (newWord.length() > MAX_LENGTH) {
@@ -208,7 +208,7 @@ class HandleGUI {
             }
         }
         if (!"".equals(newWord.replaceAll(" ", ""))) {
-            String[] newDatabase = new String[database.length + 1];
+            final String[] newDatabase = new String[database.length + 1];
             System.arraycopy(database, 0, newDatabase, 0, database.length);
             newDatabase[database.length] = newWord;
             doLoadOrSave.save(newDatabase);
@@ -225,7 +225,7 @@ class HandleGUI {
     }
 
     private void doVenn(Syllogism syllogism) {
-        VennLogic venn = new VennLogic();
+        final VennLogic venn = new VennLogic();
         grid = venn.makeGrid(syllogism.getOne(), syllogism.getTwo(), syllogism.getFour());
     }
 

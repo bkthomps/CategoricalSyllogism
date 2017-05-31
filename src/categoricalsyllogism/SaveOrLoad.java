@@ -42,7 +42,7 @@ class SaveOrLoad {
             saveFile = "Bailey's_sentient_robots cats cows dogs elephants foxes grenades russians germans austrians";
         }
         // Create String array from String that is separated by spaces
-        String[] database = saveFile.split("\\s+");
+        final String[] database = saveFile.split("\\s+");
         for (int i = 0; i < database.length; i++) {
             database[i] = database[i].replaceAll("_", " ");
         }
@@ -54,8 +54,8 @@ class SaveOrLoad {
         for (int i = 1; i < database.length; i++) {
             saveFile += " " + database[i].replaceAll(" ", "_");
         }
-        byte data[] = saveFile.getBytes();
-        try (OutputStream out = new BufferedOutputStream(Files.newOutputStream(FILE, WRITE, TRUNCATE_EXISTING))) {
+        final byte data[] = saveFile.getBytes();
+        try (final OutputStream out = new BufferedOutputStream(Files.newOutputStream(FILE, WRITE, TRUNCATE_EXISTING))) {
             out.write(data, 0, data.length);
         } catch (IOException x) {
             System.err.println("Error in SaveOrLoad.save: could not open or write to file.");

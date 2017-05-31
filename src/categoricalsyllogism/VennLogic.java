@@ -9,7 +9,7 @@ class VennLogic {
     enum GridColor {WHITE, BLACK, GREEN, RED, ORANGE}
 
     GridColor[][] makeGrid(char one, char two, int four) {
-        GridColor[][] grid = new GridColor[HandleGUI.GRID_VERTICAL_LENGTH][HandleGUI.GRID_HORIZONTAL_LENGTH];
+        final GridColor[][] grid = new GridColor[HandleGUI.GRID_VERTICAL_LENGTH][HandleGUI.GRID_HORIZONTAL_LENGTH];
         setToZero(grid);
         setBlack(grid);
         addColor(grid, one, two, four);
@@ -52,16 +52,15 @@ class VennLogic {
     }
 
     private void addColor(GridColor[][] grid, char one, char two, int four) {
-        int[] section = allOrNone(one, two, four);
-        boolean[] checkMark = someAre(one, two);
-        boolean[] xMark = someAreNot(one, two, four);
-
+        final int[] section = allOrNone(one, two, four);
+        final boolean[] checkMark = someAre(one, two);
+        final boolean[] xMark = someAreNot(one, two, four);
         changeMarks(grid, checkMark, xMark);
         changeSection(grid, section);
     }
 
     private int[] allOrNone(char one, char two, int four) {
-        int[] section = new int[7];
+        final int[] section = new int[7];
         for (int i = 0; i < 7; i++) {
             section[i] = 0;
         }
@@ -98,14 +97,14 @@ class VennLogic {
     }
 
     private boolean[] someAre(char one, char two) {
-        boolean[] checkMark = new boolean[2];
+        final boolean[] checkMark = new boolean[2];
         checkMark[0] = (one == 'I');
         checkMark[1] = (two == 'I');
         return checkMark;
     }
 
     private boolean[] someAreNot(char one, char two, int four) {
-        boolean[] xMark = new boolean[4];
+        final boolean[] xMark = new boolean[4];
         for (int i = 0; i < 4; i++) {
             xMark[i] = false;
         }
