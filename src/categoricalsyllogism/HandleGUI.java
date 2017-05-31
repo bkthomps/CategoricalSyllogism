@@ -32,27 +32,15 @@ class HandleGUI {
     static final int GRID_VERTICAL_LENGTH = 13;
     static final int GRID_HORIZONTAL_LENGTH = 15;
 
-    private static final ImageIcon ICON = new ImageIcon("Socrates.png");
     private static final String SPACE = "   ";
     private static final String BIG_SPACE = "                        ";
-    private static final Color BAD_COLOR = Color.red;
+    private static final Color BAD_COLOR = Color.RED;
     private static final Color GOOD_COLOR = new Color(33, 191, 55);
-    private static final int MAX_LENGTH = 25;
     private static final String ERROR_MESSAGE = "Error!";
 
     private VennLogic.GridColor[][] grid = new VennLogic.GridColor[GRID_VERTICAL_LENGTH][GRID_HORIZONTAL_LENGTH];
 
-    private final JFrame frame = new JFrame(NAME);
-    private final JPanel statementsAndSyllogismInfo = new JPanel();
-    private final JPanel statements = new JPanel();
-    private final JPanel syllogismInfo = new JPanel();
-    private final JPanel fallaciesAndVennDiagram = new JPanel();
-    private final JPanel creditsAndVennInfo = new JPanel();
-    private final JPanel buttons = new JPanel();
-    private final JPanel creditsAndVennInfoAndButtons = new JPanel();
-    private final JPanel fallacyDisplay = new JPanel();
     private final JLabel vennDisplay = new JLabel();
-    private final JLabel credits = new JLabel(SPACE + "Made by Bailey Thompson");
     private final JPanel vennInfo = new JPanel();
     private final JLabel vennInfoMajor = new JLabel();
     private final JLabel vennInfoMinor = new JLabel();
@@ -68,11 +56,24 @@ class HandleGUI {
     private final JLabel exclusiveFallacy = new JLabel(ERROR_MESSAGE);
     private final JLabel affirmativeFallacy = new JLabel(ERROR_MESSAGE);
     private final JLabel existentialFallacy = new JLabel(ERROR_MESSAGE);
-    private final JButton exitApp = new JButton("Exit");
-    private final JButton addWords = new JButton("Add");
-    private final JButton nextSyllogism = new JButton("Next");
 
     void createGUI() {
+        final ImageIcon ICON = new ImageIcon("Socrates.png");
+
+        final JFrame frame = new JFrame(NAME);
+        final JPanel statementsAndSyllogismInfo = new JPanel();
+        final JPanel statements = new JPanel();
+        final JPanel syllogismInfo = new JPanel();
+        final JPanel fallaciesAndVennDiagram = new JPanel();
+        final JPanel creditsAndVennInfo = new JPanel();
+        final JPanel buttons = new JPanel();
+        final JPanel creditsAndVennInfoAndButtons = new JPanel();
+        final JPanel fallacyDisplay = new JPanel();
+        final JLabel credits = new JLabel(SPACE + "Made by Bailey Thompson");
+        final JButton findSyllogism = new JButton("Find");
+        final JButton addWords = new JButton("Add");
+        final JButton nextSyllogism = new JButton("Next");
+
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(400, 400);
@@ -113,7 +114,7 @@ class HandleGUI {
         creditsAndVennInfo.add(vennInfo);
         creditsAndVennInfo.setLayout(new GridLayout(1, 2, 0, 0));
 
-        buttons.add(exitApp);
+        buttons.add(findSyllogism);
         buttons.add(addWords);
         buttons.add(nextSyllogism);
         buttons.setLayout(new GridLayout(1, 3, 0, 0));
@@ -131,19 +132,65 @@ class HandleGUI {
         frame.add(creditsAndVennInfoAndButtons);
         frame.setLayout(new GridLayout(3, 1, 0, 0));
 
-        buttonPress();
-        updateGUI();
-    }
-
-    private void buttonPress() {
-        exitApp.addActionListener((ActionEvent e) -> System.exit(0));
+        findSyllogism.addActionListener((ActionEvent e) -> updateSyllogismManually());
         addWords.addActionListener((ActionEvent e) -> doAdd());
-        nextSyllogism.addActionListener((ActionEvent e) -> updateGUI());
+        nextSyllogism.addActionListener((ActionEvent e) -> updateSyllogismAutomatically());
+
+        updateSyllogismAutomatically();
     }
 
-    private void updateGUI() {
-        final Syllogism syllogism = new Syllogism();
+    private void updateSyllogismManually() {
+        String code = JOptionPane.showInputDialog(null, "Please enter code to create syllogism for.", NAME,
+                JOptionPane.PLAIN_MESSAGE);
+        if (code == null) {
+            code = "";
+        }
+        while (!code.equals("") && !isCodeLegal(reduceCodeToBasicFormat(code))) {
+            code = JOptionPane.showInputDialog(null, "Incorrect format. Please input 3 characters and 1 number."
+                    + "\nSpaces, underscores, and hyphens are allowed.", NAME, JOptionPane.PLAIN_MESSAGE);
+            if (code == null) {
+                code = "";
+            }
+        }
+        if (!code.equals("")) {
+            final char[] legalCode = reduceCodeToBasicFormat(code).toCharArray();
+            if (legalCode.length != 4) {
+                CategoricalSyllogism.errorPanic("syllogism code not 4 characters long was identified as legal",
+                        "HandleGUI.updateSyllogismManually");
+            }
+            final char one = legalCode[0];
+            final char two = legalCode[1];
+            final char three = legalCode[2];
+            final int four = legalCode[3] - '0';
+            final Syllogism syllogism = new Syllogism(one, two, three, four);
+            updateGUI(syllogism);
+        }
+    }
 
+    private String reduceCodeToBasicFormat(String code) {
+        return code.replaceAll("[ _-]", "").toUpperCase();
+    }
+
+    private boolean isCodeLegal(String code) {
+        final char[] codes = code.toCharArray();
+        return isLegalCharacter(codes[0]) && isLegalCharacter(codes[1]) && isLegalCharacter(codes[2])
+                && isLegalNumber(codes[3]);
+    }
+
+    private boolean isLegalCharacter(char var) {
+        return var == 'A' || var == 'E' || var == 'I' || var == 'O';
+    }
+
+    private boolean isLegalNumber(char var) {
+        return var == '1' || var == '2' || var == '3' || var == '4';
+    }
+
+    private void updateSyllogismAutomatically() {
+        final Syllogism syllogism = new Syllogism();
+        updateGUI(syllogism);
+    }
+
+    private void updateGUI(Syllogism syllogism) {
         majorPremise.setText(SPACE + syllogism.majorSentence());
         minorPremise.setText(SPACE + syllogism.minorSentence());
         conclusion.setText(SPACE + syllogism.conclusionSentence());
@@ -167,12 +214,12 @@ class HandleGUI {
         affirmativeFallacy.setText(SPACE + "Affirmative conclusion");
         existentialFallacy.setText(SPACE + "Existential fallacy");
 
-        middleFallacy.setForeground((syllogism.isMiddleFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        majorFallacy.setForeground((syllogism.isMajorFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        minorFallacy.setForeground((syllogism.isMinorFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        exclusiveFallacy.setForeground((syllogism.isExclusiveFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        affirmativeFallacy.setForeground((syllogism.isAffirmativeFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
-        existentialFallacy.setForeground((syllogism.isExistentialFallacy()) ? (BAD_COLOR) : (GOOD_COLOR));
+        middleFallacy.setForeground(colorBasedOnFallacy(syllogism.isMiddleFallacy()));
+        majorFallacy.setForeground(colorBasedOnFallacy(syllogism.isMajorFallacy()));
+        minorFallacy.setForeground(colorBasedOnFallacy(syllogism.isMinorFallacy()));
+        exclusiveFallacy.setForeground(colorBasedOnFallacy(syllogism.isExclusiveFallacy()));
+        affirmativeFallacy.setForeground(colorBasedOnFallacy(syllogism.isAffirmativeFallacy()));
+        existentialFallacy.setForeground(colorBasedOnFallacy(syllogism.isExistentialFallacy()));
 
         vennDisplay.setIcon(new ImageIcon("Assets/Format/" + syllogism.getFour() + ".png"));
 
@@ -183,16 +230,20 @@ class HandleGUI {
         doVenn(syllogism);
     }
 
+    private Color colorBasedOnFallacy(boolean fallacy) {
+        return fallacy ? BAD_COLOR : GOOD_COLOR;
+    }
+
     private void doAdd() {
+        final int MAX_LENGTH = 25;
         final SaveOrLoad doLoadOrSave = new SaveOrLoad();
         final String[] database = doLoadOrSave.load();
-
         String newWord = JOptionPane.showInputDialog(null, "Please input a new plural word.", NAME,
                 JOptionPane.PLAIN_MESSAGE);
         if (newWord == null) {
             newWord = "";
         }
-        while (existent(newWord, database) || newWord.length() > 25) {
+        while (existent(newWord, database) || newWord.length() > MAX_LENGTH) {
             final String errorMessage;
             if (existent(newWord, database)) {
                 errorMessage = "This word is already in the database.";
