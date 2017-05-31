@@ -7,7 +7,7 @@ package categoricalsyllogism;
  */
 class Print {
 
-    String premise(String one, String two, char letter) {
+    static String premise(String one, String two, char letter) {
         switch (letter) {
             case 'A':
                 return "All " + one + " are " + two + ".";
@@ -23,7 +23,7 @@ class Print {
         }
     }
 
-    String conclusion(String one, String two, char letter) {
+    static String conclusion(String one, String two, char letter) {
         return "∴ " + premise(one, two, letter);
     }
 }

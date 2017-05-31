@@ -144,9 +144,9 @@ class HandleGUI {
     private void updateGUI() {
         final Syllogism syllogism = new Syllogism();
 
-        majorPremise.setText(SPACE + syllogism.getMajorSentence());
-        minorPremise.setText(SPACE + syllogism.getMinorSentence());
-        conclusion.setText(SPACE + syllogism.getConclusionSentence());
+        majorPremise.setText(SPACE + syllogism.majorSentence());
+        minorPremise.setText(SPACE + syllogism.minorSentence());
+        conclusion.setText(SPACE + syllogism.conclusionSentence());
 
         classification.setText(BIG_SPACE + syllogism.getOne() + "" + syllogism.getTwo() + "" + syllogism.getThree()
                 + "-" + Integer.toString(syllogism.getFour()));

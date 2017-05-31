@@ -5,7 +5,7 @@ package categoricalsyllogism;
  */
 class Fallacies {
 
-    boolean middle(char one, char two, int four) {
+    static boolean middle(char one, char two, int four) {
         switch (one) {
             case 'I':
                 return (two == 'I')
@@ -27,41 +27,41 @@ class Fallacies {
         }
     }
 
-    boolean major(char one, char three, int four) {
+    static boolean major(char one, char three, int four) {
         return (negative(three)) && ((one == 'I') || (one == 'O' && (four == 2 || four == 4))
                 || (one == 'A' && (four == 1 || four == 3)));
     }
 
-    boolean minor(char two, char three, int four) {
+    static boolean minor(char two, char three, int four) {
         return (absolute(three)) && ((two == 'I') || (two == 'O' && (four == 1 || four == 2))
                 || (two == 'A' && (four == 3 || four == 4)));
     }
 
-    boolean exclusive(char one, char two) {
+    static boolean exclusive(char one, char two) {
         return negative(one) && negative(two);
     }
 
-    boolean affirmative(char one, char two, char three) {
+    static boolean affirmative(char one, char two, char three) {
         return (negative(one) || negative(two)) && positive(three);
     }
 
-    boolean existential(char one, char two, char three) {
+    static boolean existential(char one, char two, char three) {
         return absolute(one) && absolute(two) && relative(three);
     }
 
-    private boolean positive(char var) {
+    private static boolean positive(char var) {
         return var == 'A' || var == 'I';
     }
 
-    private boolean negative(char var) {
+    private static boolean negative(char var) {
         return var == 'E' || var == 'O';
     }
 
-    private boolean absolute(char var) {
+    private static boolean absolute(char var) {
         return var == 'A' || var == 'E';
     }
 
-    private boolean relative(char var) {
+    private static boolean relative(char var) {
         return var == 'I' || var == 'O';
     }
 }

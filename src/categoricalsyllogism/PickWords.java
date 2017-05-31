@@ -7,13 +7,13 @@ package categoricalsyllogism;
  */
 class PickWords {
 
-    String pick() {
+    static String pick() {
         final String[] database = getLoad();
         final int index = generateIndex();
         return database[index];
     }
 
-    String pick(String one) {
+    static String pick(String one) {
         final String[] database = getLoad();
         int index = generateIndex();
         String currentWord = database[index];
@@ -28,7 +28,7 @@ class PickWords {
         return currentWord;
     }
 
-    String pick(String one, String two) {
+    static String pick(String one, String two) {
         final String[] database = getLoad();
         int index = generateIndex();
         String currentWord = database[index];
@@ -43,14 +43,14 @@ class PickWords {
         return currentWord;
     }
 
-    private int generateIndex() {
+    private static int generateIndex() {
         final String[] database = getLoad();
         final int min = 0;
         final int max = database.length - 1;
         return (int) (Math.random() * (max - min + 1)) + min;
     }
 
-    private String[] getLoad() {
+    private static String[] getLoad() {
         final SaveOrLoad doLoad = new SaveOrLoad();
         return doLoad.load();
     }
