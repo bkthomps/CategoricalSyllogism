@@ -7,14 +7,14 @@ package categoricalsyllogism;
 class Generate {
 
     int number() {
-        final int MIN = 1;
-        final int MAX = 4;
-        return (int) (Math.random() * (MAX - MIN + 1)) + MIN;
+        final int min = 1;
+        final int max = 4;
+        return (int) (Math.random() * (max - min + 1)) + min;
     }
 
     char character() {
-        char[] letters = {'A', 'E', 'I', 'O'};
-        int index = number() - 1;
+        final char[] letters = {'A', 'E', 'I', 'O'};
+        final int index = number() - 1;
         return letters[index];
     }
 }

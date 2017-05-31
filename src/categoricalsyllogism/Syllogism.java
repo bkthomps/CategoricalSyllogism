@@ -27,13 +27,13 @@ class Syllogism {
     private final String conclusionSentence;
 
     Syllogism() {
-        Generate generate = new Generate();
+        final Generate generate = new Generate();
         one = generate.character();
         two = generate.character();
         three = generate.character();
         four = generate.number();
 
-        Fallacies fallacy = new Fallacies();
+        final Fallacies fallacy = new Fallacies();
         middleFallacy = fallacy.middle(one, two, four);
         majorFallacy = fallacy.major(one, three, four);
         minorFallacy = fallacy.minor(two, three, four);
@@ -43,12 +43,12 @@ class Syllogism {
         syllogismValid = !middleFallacy && !majorFallacy && !minorFallacy
                 && !exclusiveFallacy && !affirmativeFallacy && !existentialFallacy;
 
-        PickWords wordChoose = new PickWords();
+        final PickWords wordChoose = new PickWords();
         majorTerm = wordChoose.pick();
         middleTerm = wordChoose.pick(majorTerm);
         minorTerm = wordChoose.pick(majorTerm, middleTerm);
 
-        Print print = new Print();
+        final Print print = new Print();
         switch (four) {
             case 1:
                 majorSentence = print.premise(middleTerm, majorTerm, one);

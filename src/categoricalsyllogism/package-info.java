@@ -1,6 +1,6 @@
 /**
  * Bailey Thompson <br>
- * Categorical Syllogism (1.2.1) <br>
+ * Categorical Syllogism (1.2.2) <br>
  * 30 May 2017 <br>
  * <br>
  * Categorical syllogisms are generated from a user-customisable word bank.&nbsp;The fallacies the syllogism has
