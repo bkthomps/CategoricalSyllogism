@@ -17,17 +17,22 @@ import static java.nio.file.StandardOpenOption.WRITE;
 /**
  * Saves and loads from file.
  */
-class SaveOrLoad {
+final class SaveOrLoad {
 
     private static final Path FILE = Paths.get("Syllogisms.txt");
 
+    /**
+     * Loads the word bank contents from file.
+     *
+     * @return the word bank contents
+     */
     String[] load() {
         String saveFile = null;
         try {
             Files.createFile(FILE);
         } catch (FileAlreadyExistsException x) {
-            try (InputStream in = Files.newInputStream(FILE);
-                 BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            try (final InputStream in = Files.newInputStream(FILE);
+                 final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     saveFile = line;
@@ -49,15 +54,22 @@ class SaveOrLoad {
         return database;
     }
 
+    /**
+     * Saves the word bank contents to file.
+     *
+     * @param database the word bank contents to save to file
+     */
     void save(String[] database) {
-        String saveFile = database[0].replaceAll(" ", "_");
+        final StringBuilder saveFile = new StringBuilder();
+        saveFile.append(database[0].replaceAll(" ", "_"));
         for (int i = 1; i < database.length; i++) {
-            saveFile += " " + database[i].replaceAll(" ", "_");
+            saveFile.append(" ");
+            saveFile.append(database[i].replaceAll(" ", "_"));
         }
-        final byte data[] = saveFile.getBytes();
+        final byte[] data = saveFile.toString().getBytes();
         try (final OutputStream out = new BufferedOutputStream(Files.newOutputStream(FILE, WRITE, TRUNCATE_EXISTING))) {
             out.write(data, 0, data.length);
-        } catch (IOException x) {
+        } catch (IOException e) {
             System.err.println("Error in SaveOrLoad.save: could not open or write to file.");
         }
     }

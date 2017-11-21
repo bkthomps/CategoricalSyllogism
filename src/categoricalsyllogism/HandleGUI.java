@@ -26,7 +26,7 @@ import javax.swing.WindowConstants;
  * fallacy was not committed, and red if the fallacy was committed. Thus, to have a green "Valid" syllogism, all
  * fallacy labels must be green.
  */
-class HandleGUI {
+final class HandleGUI {
 
     static final String NAME = "Categorical Syllogism";
     static final int GRID_VERTICAL_LENGTH = 13;
@@ -57,8 +57,11 @@ class HandleGUI {
     private final JLabel affirmativeFallacy = new JLabel(ERROR_MESSAGE);
     private final JLabel existentialFallacy = new JLabel(ERROR_MESSAGE);
 
+    /**
+     * Creates the GUI frame containing all the elements.
+     */
     void createGUI() {
-        final ImageIcon ICON = new ImageIcon("Socrates.png");
+        final ImageIcon icon = new ImageIcon("Socrates.png");
 
         final JFrame frame = new JFrame(NAME);
         final JPanel statementsAndSyllogismInfo = new JPanel();
@@ -78,7 +81,7 @@ class HandleGUI {
         frame.setResizable(false);
         frame.setSize(400, 400);
         frame.setLocationRelativeTo(null);
-        frame.setIconImage(ICON.getImage());
+        frame.setIconImage(icon.getImage());
         frame.setVisible(true);
 
         vennDisplay.setLayout(new GridLayout());
@@ -139,6 +142,9 @@ class HandleGUI {
         updateSyllogismAutomatically();
     }
 
+    /**
+     * Generates a syllogism based on the user-defined syllogism code. Ie: "AAA-1".
+     */
     private void updateSyllogismManually() {
         String code = JOptionPane.showInputDialog(null, "Please enter code to create syllogism for.", NAME,
                 JOptionPane.PLAIN_MESSAGE);
@@ -167,29 +173,61 @@ class HandleGUI {
         }
     }
 
+    /**
+     * Removes optional formatting from the user-defined syllogism code.
+     *
+     * @param code the user-defined syllogism code
+     * @return the code with optional formatting removed
+     */
     private String reduceCodeToBasicFormat(String code) {
         return code.replaceAll("[ _-]", "").toUpperCase();
     }
 
+    /**
+     * Determines if the user-defined syllogism code is legal.
+     *
+     * @param code the user-defined syllogism code
+     * @return true if the the user-defined syllogism code is legal
+     */
     private boolean isCodeLegal(String code) {
         final char[] codes = code.toCharArray();
         return isLegalCharacter(codes[0]) && isLegalCharacter(codes[1]) && isLegalCharacter(codes[2])
                 && isLegalNumber(codes[3]);
     }
 
+    /**
+     * Determines if the statement code is legal.
+     *
+     * @param var the statement code
+     * @return true if the statement code is legal
+     */
     private boolean isLegalCharacter(char var) {
         return var == 'A' || var == 'E' || var == 'I' || var == 'O';
     }
 
+    /**
+     * Determines if the statement placement is legal.
+     *
+     * @param var the statement placement
+     * @return true if the statement placement is legal
+     */
     private boolean isLegalNumber(char var) {
         return var == '1' || var == '2' || var == '3' || var == '4';
     }
 
+    /**
+     * Creates a new syllogism when the user clicks the next button.
+     */
     private void updateSyllogismAutomatically() {
         final Syllogism syllogism = new Syllogism();
         updateGUI(syllogism);
     }
 
+    /**
+     * Updates the display on the GUI.
+     *
+     * @param syllogism the syllogism to update on the GUI
+     */
     private void updateGUI(Syllogism syllogism) {
         majorPremise.setText(SPACE + syllogism.majorSentence());
         minorPremise.setText(SPACE + syllogism.minorSentence());
@@ -230,10 +268,19 @@ class HandleGUI {
         doVenn(syllogism);
     }
 
+    /**
+     * Determines what color the statement validity should be.
+     *
+     * @param fallacy true if a fallacy has been committed
+     * @return what color the statement validity should be
+     */
     private Color colorBasedOnFallacy(boolean fallacy) {
         return fallacy ? BAD_COLOR : GOOD_COLOR;
     }
 
+    /**
+     * Adds a new word to the word bank if the user-input is legal.
+     */
     private void doAdd() {
         final int MAX_LENGTH = 25;
         final SaveOrLoad doLoadOrSave = new SaveOrLoad();
@@ -266,6 +313,13 @@ class HandleGUI {
         }
     }
 
+    /**
+     * Determines whether the word is already in the word bank.
+     *
+     * @param newWord  the word check if already in the word bank
+     * @param database the word bank
+     * @return true if the word already exists in the word bank
+     */
     private boolean existent(String newWord, String[] database) {
         for (String entry : database) {
             if (newWord.equals(entry)) {
@@ -275,18 +329,22 @@ class HandleGUI {
         return false;
     }
 
+    /**
+     * Creates a Venn diagram from the syllogism.
+     *
+     * @param syllogism the syllogism to create the Venn diagram from
+     */
     private void doVenn(Syllogism syllogism) {
         final VennLogic venn = new VennLogic();
         grid = venn.makeGrid(syllogism.getOne(), syllogism.getTwo(), syllogism.getFour());
     }
 
-    public class GridPane extends JPanel {
+    /**
+     * Displays the individual colors on the Venn diagram.
+     */
+    private final class GridPane extends JPanel {
 
-        final List<Rectangle> cells;
-
-        GridPane() {
-            cells = new ArrayList<>(GRID_VERTICAL_LENGTH * GRID_HORIZONTAL_LENGTH);
-        }
+        final List<Rectangle> cells = new ArrayList<>(GRID_VERTICAL_LENGTH * GRID_HORIZONTAL_LENGTH);
 
         @Override
         public Dimension getPreferredSize() {
@@ -309,7 +367,6 @@ class HandleGUI {
                     }
                 }
             }
-
             for (int vertical = 0; vertical < GRID_VERTICAL_LENGTH; vertical++) {
                 for (int horizontal = 0; horizontal < GRID_HORIZONTAL_LENGTH; horizontal++) {
                     Rectangle cell = cells.get(horizontal + vertical * GRID_HORIZONTAL_LENGTH);

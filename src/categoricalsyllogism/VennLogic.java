@@ -4,7 +4,7 @@ package categoricalsyllogism;
  * Performs venn diagram logic. Takes in the syllogism classification (ex: AAA-1) and colors in the venn diagram
  * accordingly. Green represents a check-mark, red represents an x, and orange represents a filled-in area.
  */
-class VennLogic {
+final class VennLogic {
 
     enum GridColor {WHITE, BLACK, GREEN, RED, ORANGE}
 
@@ -16,6 +16,11 @@ class VennLogic {
         return grid;
     }
 
+    /**
+     * Sets everything in the grid to white so that the background ends up white.
+     *
+     * @param grid the grid to set to be white
+     */
     private void setToZero(GridColor[][] grid) {
         for (int y = 0; y < HandleGUI.GRID_VERTICAL_LENGTH; y++) {
             for (int x = 0; x < HandleGUI.GRID_HORIZONTAL_LENGTH; x++) {
@@ -24,6 +29,11 @@ class VennLogic {
         }
     }
 
+    /**
+     * Sets the black circles which make up the Venn diagram.
+     *
+     * @param grid the grid to set black circles for
+     */
     private void setBlack(GridColor[][] grid) {
         for (int i = 0; i < 5; i++) {
             grid[0][2 + i] = GridColor.BLACK;
@@ -51,6 +61,14 @@ class VennLogic {
         grid[11][10] = GridColor.BLACK;
     }
 
+    /**
+     * Adds color based on if there should be a filled in section, a check mark, or a x-mark.
+     *
+     * @param grid the grid to set color for
+     * @param one  the major premise statement type
+     * @param two  the minor premise statement type
+     * @param four the arrangement of the statements
+     */
     private void addColor(GridColor[][] grid, char one, char two, int four) {
         final int[] section = allOrNone(one, two, four);
         final boolean[] checkMark = someAre(one, two);
@@ -59,6 +77,14 @@ class VennLogic {
         changeSection(grid, section);
     }
 
+    /**
+     * Sets full color in sections.
+     *
+     * @param one  the major premise statement type
+     * @param two  the minor premise statement type
+     * @param four the arrangement of the statements
+     * @return the full color in sections to set
+     */
     private int[] allOrNone(char one, char two, int four) {
         final int[] section = new int[7];
         for (int i = 0; i < 7; i++) {
@@ -96,6 +122,13 @@ class VennLogic {
         return section;
     }
 
+    /**
+     * Sets check mark color in sections.
+     *
+     * @param one the major premise statement type
+     * @param two the minor premise statement type
+     * @return the check mark color in sections to set
+     */
     private boolean[] someAre(char one, char two) {
         final boolean[] checkMark = new boolean[2];
         checkMark[0] = (one == 'I');
@@ -103,6 +136,14 @@ class VennLogic {
         return checkMark;
     }
 
+    /**
+     * Sets x-mark color in sections.
+     *
+     * @param one  the major premise statement type
+     * @param two  the minor premise statement type
+     * @param four the arrangement of the statements
+     * @return the x-mark color in sections to set
+     */
     private boolean[] someAreNot(char one, char two, int four) {
         final boolean[] xMark = new boolean[4];
         for (int i = 0; i < 4; i++) {
@@ -127,6 +168,13 @@ class VennLogic {
         return xMark;
     }
 
+    /**
+     * Sets the check mark and x-mark colors on the Venn diagram.
+     *
+     * @param grid      the grid to set the check mark and x-mark colors on
+     * @param checkMark the check mark color sections to set
+     * @param xMark     the check x-color sections to set
+     */
     private void changeMarks(GridColor[][] grid, boolean[] checkMark, boolean[] xMark) {
         if (checkMark[0]) {
             grid[6][6] = GridColor.GREEN;
@@ -149,6 +197,12 @@ class VennLogic {
         }
     }
 
+    /**
+     * Sets the full color in sections.
+     *
+     * @param grid    the grid to set full color in
+     * @param section the sections to set
+     */
     private void changeSection(GridColor[][] grid, int[] section) {
         for (int i = 0; i < 7; i++) {
             if (section[i] != 0) {
@@ -157,6 +211,12 @@ class VennLogic {
         }
     }
 
+    /**
+     * Sets the pixels in the section specified.
+     *
+     * @param grid    the grid to set full color in
+     * @param section the sections to set
+     */
     private void colorInSection(GridColor[][] grid, int section) {
         final GridColor FILLED_IN_COLOR = GridColor.ORANGE;
         switch (section) {

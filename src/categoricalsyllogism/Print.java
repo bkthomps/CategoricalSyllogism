@@ -5,8 +5,16 @@ package categoricalsyllogism;
  * associated with the specific sentence. For example, in the syllogism, AEI-3, the major premise starts with all,
  * the minor premise starts with no, and the conclusion starts with some.
  */
-class Print {
+final class Print {
 
+    /**
+     * Computes the premise statement.
+     *
+     * @param one    the first word
+     * @param two    the second word
+     * @param letter the statement type
+     * @return the premise statement
+     */
     static String premise(String one, String two, char letter) {
         switch (letter) {
             case 'A':
@@ -23,6 +31,14 @@ class Print {
         }
     }
 
+    /**
+     * Computes the conclusion statement.
+     *
+     * @param one    the first word
+     * @param two    the second word
+     * @param letter the statement type
+     * @return the conclusion statement
+     */
     static String conclusion(String one, String two, char letter) {
         return "∴ " + premise(one, two, letter);
     }

@@ -5,14 +5,25 @@ package categoricalsyllogism;
  * three words are picked. The words are picked in such a way that each word must be different than each other, to
  * ensure that the syllogism makes sense.
  */
-class PickWords {
+final class PickWords {
 
+    /**
+     * Gets a word from the word bank.
+     *
+     * @return a word from the word bank
+     */
     static String pick() {
         final String[] database = getLoad();
         final int index = generateIndex();
         return database[index];
     }
 
+    /**
+     * Gets a word from the word bank which does not repeat the specified word.
+     *
+     * @param one the specified word not to repeat
+     * @return a word from the word bank
+     */
     static String pick(String one) {
         final String[] database = getLoad();
         int index = generateIndex();
@@ -28,6 +39,13 @@ class PickWords {
         return currentWord;
     }
 
+    /**
+     * Gets a word from the word bank which does not repeat the specified words.
+     *
+     * @param one the first specified word not to repeat
+     * @param two the second specified word not to repeat
+     * @return a word from the word bank
+     */
     static String pick(String one, String two) {
         final String[] database = getLoad();
         int index = generateIndex();
@@ -43,6 +61,11 @@ class PickWords {
         return currentWord;
     }
 
+    /**
+     * Generates an index which is within range of the database size.
+     *
+     * @return an index which is within range of the database size
+     */
     private static int generateIndex() {
         final String[] database = getLoad();
         final int min = 0;
@@ -50,6 +73,11 @@ class PickWords {
         return (int) (Math.random() * (max - min + 1)) + min;
     }
 
+    /**
+     * Gets the words in the word bank.
+     *
+     * @return the words in the word bank
+     */
     private static String[] getLoad() {
         final SaveOrLoad doLoad = new SaveOrLoad();
         return doLoad.load();
