@@ -17,7 +17,7 @@ final class VennLogic {
     }
 
     /**
-     * Sets everything in the grid to white so that the background ends up white.
+     * Sets everything in the grid to white so that the background ends up being white.
      *
      * @param grid the grid to set to be white
      */
@@ -198,7 +198,7 @@ final class VennLogic {
     }
 
     /**
-     * Sets the full color in sections.
+     * Fills in the sections with specified colors.
      *
      * @param grid    the grid to set full color in
      * @param section the sections to set

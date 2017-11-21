@@ -3,6 +3,6 @@
  * committed — if any — are displayed. For each syllogism, a Venn diagram is also created.
  *
  * @author Bailey Thompson
- * @version 1.3.1
+ * @version 1.3.2
  */
 package categoricalsyllogism;

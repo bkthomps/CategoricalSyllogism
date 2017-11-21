@@ -198,21 +198,21 @@ final class HandleGUI {
     /**
      * Determines if the statement code is legal.
      *
-     * @param var the statement code
+     * @param me the statement code
      * @return true if the statement code is legal
      */
-    private boolean isLegalCharacter(char var) {
-        return var == 'A' || var == 'E' || var == 'I' || var == 'O';
+    private boolean isLegalCharacter(char me) {
+        return me == 'A' || me == 'E' || me == 'I' || me == 'O';
     }
 
     /**
      * Determines if the statement placement is legal.
      *
-     * @param var the statement placement
+     * @param me the statement placement
      * @return true if the statement placement is legal
      */
-    private boolean isLegalNumber(char var) {
-        return var == '1' || var == '2' || var == '3' || var == '4';
+    private boolean isLegalNumber(char me) {
+        return me == '1' || me == '2' || me == '3' || me == '4';
     }
 
     /**
@@ -316,7 +316,7 @@ final class HandleGUI {
     /**
      * Determines whether the word is already in the word bank.
      *
-     * @param newWord  the word check if already in the word bank
+     * @param newWord  the word to check if in the word bank
      * @param database the word bank
      * @return true if the word already exists in the word bank
      */

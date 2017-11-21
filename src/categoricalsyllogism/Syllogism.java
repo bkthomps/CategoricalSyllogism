@@ -148,41 +148,41 @@ final class Syllogism {
     /**
      * Determines whether a positive statement is being made.
      *
-     * @param var the statement type
+     * @param me the statement type
      * @return true if a positive statement is being made
      */
-    private boolean positive(char var) {
-        return var == 'A' || var == 'I';
+    private boolean positive(char me) {
+        return me == 'A' || me == 'I';
     }
 
     /**
      * Determines whether a negative statement is being made.
      *
-     * @param var the statement type
+     * @param me the statement type
      * @return true if a negative statement is being made
      */
-    private boolean negative(char var) {
-        return var == 'E' || var == 'O';
+    private boolean negative(char me) {
+        return me == 'E' || me == 'O';
     }
 
     /**
      * Determines whether an absolute statement is being made.
      *
-     * @param var the statement type
+     * @param me the statement type
      * @return true if an absolute statement is being made
      */
-    private boolean absolute(char var) {
-        return var == 'A' || var == 'E';
+    private boolean absolute(char me) {
+        return me == 'A' || me == 'E';
     }
 
     /**
      * Determines whether a relative statement is being made.
      *
-     * @param var the statement type
+     * @param me the statement type
      * @return true if a relative statement is being made
      */
-    private boolean relative(char var) {
-        return var == 'I' || var == 'O';
+    private boolean relative(char me) {
+        return me == 'I' || me == 'O';
     }
 
     /**
