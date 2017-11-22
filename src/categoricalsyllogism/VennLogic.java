@@ -216,6 +216,7 @@ final class VennLogic {
      *
      * @param grid    the grid to set full color in
      * @param section the sections to set
+     * @throws IllegalArgumentException if the section is invalid
      */
     private void colorInSection(GridColor[][] grid, int section) {
         final GridColor FILLED_IN_COLOR = GridColor.ORANGE;
@@ -285,8 +286,7 @@ final class VennLogic {
                 grid[6][7] = FILLED_IN_COLOR;
                 break;
             default:
-                CategoricalSyllogism.errorPanic("invalid section", "VennLogic.colorInSection");
-                break;
+                throw new IllegalArgumentException("Invalid section.");
         }
     }
 }

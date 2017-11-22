@@ -144,6 +144,8 @@ final class HandleGUI {
 
     /**
      * Generates a syllogism based on the user-defined syllogism code. Ie: "AAA-1".
+     *
+     * @throws IllegalStateException if accepted syllogism code which is not 4 characters long
      */
     private void updateSyllogismManually() {
         String code = JOptionPane.showInputDialog(null, "Please enter code to create syllogism for.", NAME,
@@ -161,8 +163,7 @@ final class HandleGUI {
         if (!code.equals("")) {
             final char[] legalCode = reduceCodeToBasicFormat(code).toCharArray();
             if (legalCode.length != 4) {
-                CategoricalSyllogism.errorPanic("syllogism code not 4 characters long was identified as legal",
-                        "HandleGUI.updateSyllogismManually");
+                throw new IllegalStateException("Accepted syllogism code which is not 4 characters long.");
             }
             final char one = legalCode[0];
             final char two = legalCode[1];
@@ -280,6 +281,8 @@ final class HandleGUI {
 
     /**
      * Adds a new word to the word bank if the user-input is legal.
+     *
+     * @throws IllegalStateException if invalid error message state check
      */
     private void doAdd() {
         final int MAX_LENGTH = 25;
@@ -297,8 +300,7 @@ final class HandleGUI {
             } else if (newWord.length() > MAX_LENGTH) {
                 errorMessage = "Maximum of " + MAX_LENGTH + " characters.";
             } else {
-                errorMessage = "Error!!";
-                CategoricalSyllogism.errorPanic("hit else", "HandleGUI.doAdd");
+                throw new IllegalStateException("Invalid error message state check.");
             }
             newWord = JOptionPane.showInputDialog(null, errorMessage, NAME, JOptionPane.PLAIN_MESSAGE);
             if (newWord == null) {
@@ -387,8 +389,7 @@ final class HandleGUI {
                             g2d.setColor(Color.ORANGE);
                             break;
                         default:
-                            CategoricalSyllogism.errorPanic("hit default", "HandleGUI.GridPane.paintComponent");
-                            break;
+                            throw new IllegalStateException("Invalid color");
                     }
                     g2d.fill(cell);
                     repaint();

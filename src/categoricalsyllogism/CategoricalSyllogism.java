@@ -10,11 +10,7 @@ final class CategoricalSyllogism {
 
     public static void main(String[] args) {
         final CategoricalSyllogism categoricalSyllogism = new CategoricalSyllogism();
-        categoricalSyllogism.startLogic();
-    }
-
-    private void startLogic() {
-        checkOperatingSystem();
+        categoricalSyllogism.checkOperatingSystem();
         final HandleGUI gui = new HandleGUI();
         gui.createGUI();
     }
@@ -40,16 +36,5 @@ final class CategoricalSyllogism {
         JOptionPane.showConfirmDialog(null, "Critical Error:\n" + errorText + "\nShutting Down.", HandleGUI.NAME,
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         System.exit(0);
-    }
-
-    /**
-     * Outputs the critical logical error to the standard error stream and exits the program.
-     *
-     * @param error    the error message
-     * @param location the method location in which the error occurred
-     */
-    static void errorPanic(String error, String location) {
-        System.err.println("Error in " + location + ": " + error + "!!");
-        System.exit(-1);
     }
 }

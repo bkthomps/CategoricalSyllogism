@@ -14,6 +14,7 @@ final class Print {
      * @param two    the second word
      * @param letter the statement type
      * @return the premise statement
+     * @throws IllegalArgumentException if the letter is invalid
      */
     static String premise(String one, String two, char letter) {
         switch (letter) {
@@ -26,8 +27,7 @@ final class Print {
             case 'O':
                 return "Some " + one + " are not " + two + ".";
             default:
-                CategoricalSyllogism.errorPanic("hit default", "Print.premise");
-                return "Error!";
+                throw new IllegalArgumentException("Invalid letter.");
         }
     }
 

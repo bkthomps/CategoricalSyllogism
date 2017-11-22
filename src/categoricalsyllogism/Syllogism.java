@@ -75,6 +75,7 @@ final class Syllogism {
      * Determines whether an undistributed middle fallacy has been committed.
      *
      * @return true if an undistributed middle fallacy has been committed
+     * @throws IllegalStateException if the major premise type is invalid
      */
     boolean isMiddleFallacy() {
         switch (one) {
@@ -93,8 +94,7 @@ final class Syllogism {
             case 'E':
                 return false;
             default:
-                CategoricalSyllogism.errorPanic("hit default", "Syllogism.isMiddleFallacy");
-                return false;
+                throw new IllegalStateException("Invalid major premise type.");
         }
     }
 
@@ -199,6 +199,7 @@ final class Syllogism {
      * Gets the major premise sentence.
      *
      * @return the major premise sentence
+     * @throws IllegalStateException if the statement placement format is invalid
      */
     String majorSentence() {
         switch (four) {
@@ -209,8 +210,7 @@ final class Syllogism {
             case 4:
                 return Print.premise(majorTerm, middleTerm, one);
             default:
-                CategoricalSyllogism.errorPanic("hit default", "Syllogism.majorSentence");
-                return "Error!!";
+                throw new IllegalStateException("Invalid statement placement format.");
         }
     }
 
@@ -218,6 +218,7 @@ final class Syllogism {
      * Gets the minor premise sentence.
      *
      * @return the minor premise sentence
+     * @throws IllegalStateException if the statement placement format is invalid
      */
     String minorSentence() {
         switch (four) {
@@ -228,8 +229,7 @@ final class Syllogism {
             case 4:
                 return Print.premise(middleTerm, minorTerm, two);
             default:
-                CategoricalSyllogism.errorPanic("hit default", "Syllogism.minorSentence");
-                return "Error!!";
+                throw new IllegalStateException("Invalid statement placement format.");
         }
     }
 
