@@ -2,7 +2,7 @@
 Categorical syllogisms are generated from a user-customisable word bank. The fallacies the syllogism has committed — if any — are displayed. For each syllogism, a Venn diagram is also created.
 
 ## Setup
-To run the chess application, simply download the CategoricalSyllogism.jar file above and make sure that you either have a JRE or JDK installed. Afterwards, you will be able to run the jar application.
+To run the categorical syllogism application, simply download the CategoricalSyllogism.jar file above and make sure that you either have a JRE or JDK installed. Afterwards, you will be able to run the jar application.
 
 ## Sentences
 Syllogisms contain three sentences: a major premise, a minor premise, and a conclusion. Each sentence contains two words from the word bank. However, one word from the major premise and minor premise always repeats, and the conclusion repeats from the premises. Thus, there are three unique words per syllogism.
