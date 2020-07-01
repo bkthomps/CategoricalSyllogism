@@ -1,12 +1,11 @@
-package categoricalsyllogism;
+package categoricalsyllogism
 
 /**
  * Determines the major, minor, and conclusion sentences. The type of sentence is determined by the letter which is
  * associated with the specific sentence. For example, in the syllogism, AEI-3, the major premise starts with all,
  * the minor premise starts with no, and the conclusion starts with some.
  */
-final class Print {
-
+internal object Print {
     /**
      * Computes the premise statement.
      *
@@ -16,18 +15,13 @@ final class Print {
      * @return the premise statement
      * @throws IllegalArgumentException if the letter is invalid
      */
-    static String premise(String one, String two, char letter) {
-        switch (letter) {
-            case 'A':
-                return "All " + one + " are " + two + ".";
-            case 'E':
-                return "No " + one + " are " + two + ".";
-            case 'I':
-                return "Some " + one + " are " + two + ".";
-            case 'O':
-                return "Some " + one + " are not " + two + ".";
-            default:
-                throw new IllegalArgumentException("Invalid letter.");
+    fun premise(one: String, two: String, letter: Char): String {
+        return when (letter) {
+            'A' -> "All $one are $two."
+            'E' -> "No $one are $two."
+            'I' -> "Some $one are $two."
+            'O' -> "Some $one are not $two."
+            else -> throw IllegalArgumentException("Invalid letter.")
         }
     }
 
@@ -39,7 +33,7 @@ final class Print {
      * @param letter the statement type
      * @return the conclusion statement
      */
-    static String conclusion(String one, String two, char letter) {
-        return "∴ " + premise(one, two, letter);
+    fun conclusion(one: String, two: String, letter: Char): String {
+        return "∴ " + premise(one, two, letter)
     }
 }
