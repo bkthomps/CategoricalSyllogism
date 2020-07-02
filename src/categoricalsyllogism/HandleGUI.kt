@@ -2,7 +2,7 @@ package categoricalsyllogism
 
 import categoricalsyllogism.VennLogic.GridColor
 import java.awt.*
-import java.util.*
+import java.awt.event.*
 import javax.swing.*
 
 /**
@@ -26,17 +26,17 @@ internal class HandleGUI {
     private val vennInfoMajor = JLabel()
     private val vennInfoMinor = JLabel()
     private val vennInfoMiddle = JLabel()
-    private val majorPremise = JLabel(ERROR_MESSAGE)
-    private val minorPremise = JLabel(ERROR_MESSAGE)
-    private val conclusion = JLabel(ERROR_MESSAGE)
-    private val classification = JLabel(ERROR_MESSAGE)
-    private val validity = JLabel(ERROR_MESSAGE)
-    private val middleFallacy = JLabel(ERROR_MESSAGE)
-    private val majorFallacy = JLabel(ERROR_MESSAGE)
-    private val minorFallacy = JLabel(ERROR_MESSAGE)
-    private val exclusiveFallacy = JLabel(ERROR_MESSAGE)
-    private val affirmativeFallacy = JLabel(ERROR_MESSAGE)
-    private val existentialFallacy = JLabel(ERROR_MESSAGE)
+    private val majorPremise = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val minorPremise = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val conclusion = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val classification = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val validity = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val middleFallacy = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val majorFallacy = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val minorFallacy = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val exclusiveFallacy = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val affirmativeFallacy = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
+    private val existentialFallacy = JLabel(ERROR_MESSAGE, SwingConstants.CENTER)
 
     fun createGUI() {
         val icon = ImageIcon("Socrates.png")
@@ -49,18 +49,21 @@ internal class HandleGUI {
         val buttons = JPanel()
         val creditsAndVennInfoAndButtons = JPanel()
         val fallacyDisplay = JPanel()
-        val credits = JLabel(SPACE + "Made by Bailey Thompson")
+        val credits = JLabel("Made by Bailey Thompson", SwingConstants.CENTER)
         val findSyllogism = JButton("Find")
         val addWords = JButton("Add")
         val nextSyllogism = JButton("Next")
         frame.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
-        frame.isResizable = false
+        frame.isResizable = true
         frame.setSize(400, 400)
+        frame.minimumSize = Dimension(400, 400)
+        frame.maximumSize = Dimension(800, 800)
         frame.setLocationRelativeTo(null)
         frame.iconImage = icon.image
         frame.isVisible = true
+        var grid = GridPane()
         vennDisplay.layout = GridLayout()
-        vennDisplay.add(GridPane())
+        vennDisplay.add(grid)
         statements.add(majorPremise)
         statements.add(minorPremise)
         statements.add(conclusion)
@@ -103,6 +106,18 @@ internal class HandleGUI {
         addWords.addActionListener { addToWordBank() }
         nextSyllogism.addActionListener { updateGUI(Syllogism()) }
         updateGUI(Syllogism())
+        val widthRatio = grid.width.toDouble() / 400.0
+        val heightRatio = grid.height.toDouble() / 400.0
+        frame.addComponentListener(object : ComponentAdapter() {
+            override fun componentResized(e: ComponentEvent) {
+                val width = e.component.width.coerceAtMost((1.25 * e.component.height).toInt())
+                val height = e.component.height.coerceAtMost((1.25 * e.component.width).toInt())
+                vennDisplay.remove(grid)
+                grid = GridPane()
+                grid.setSize((width * widthRatio).toInt(), (height * heightRatio).toInt())
+                vennDisplay.add(grid)
+            }
+        })
     }
 
     private fun updateSyllogismWithUserCode() {
@@ -146,26 +161,26 @@ internal class HandleGUI {
     }
 
     private fun updateGUI(syllogism: Syllogism) {
-        majorPremise.text = SPACE + syllogism.majorSentence()
-        minorPremise.text = SPACE + syllogism.minorSentence()
-        conclusion.text = SPACE + syllogism.conclusionSentence()
-        classification.text = (BIG_SPACE + syllogism.one + "" + syllogism.two + "" + syllogism.three
-                + "-" + syllogism.four)
+        majorPremise.text = syllogism.majorSentence()
+        minorPremise.text = syllogism.minorSentence()
+        conclusion.text = syllogism.conclusionSentence()
+        classification.text =
+                syllogism.one + "" + syllogism.two + "" + syllogism.three + "-" + syllogism.four
         if (syllogism.isSyllogismValid) {
             classification.foreground = GOOD_COLOR
             validity.foreground = GOOD_COLOR
-            validity.text = BIG_SPACE + "Valid"
+            validity.text = "Valid"
         } else {
             classification.foreground = BAD_COLOR
             validity.foreground = BAD_COLOR
-            validity.text = BIG_SPACE + "Invalid"
+            validity.text = "Invalid"
         }
-        middleFallacy.text = SPACE + "Undistributed middle"
-        majorFallacy.text = SPACE + "Illicit process of major term"
-        minorFallacy.text = SPACE + "Illicit process of minor term"
-        exclusiveFallacy.text = SPACE + "Exclusive premises"
-        affirmativeFallacy.text = SPACE + "Affirmative conclusion"
-        existentialFallacy.text = SPACE + "Existential fallacy"
+        middleFallacy.text = "Undistributed middle"
+        majorFallacy.text = "Illicit process of major term"
+        minorFallacy.text = "Illicit process of minor term"
+        exclusiveFallacy.text = "Exclusive premises"
+        affirmativeFallacy.text = "Affirmative conclusion"
+        existentialFallacy.text = "Existential fallacy"
         middleFallacy.foreground = colorBasedOnFallacy(syllogism.isMiddleFallacy)
         majorFallacy.foreground = colorBasedOnFallacy(syllogism.isMajorFallacy)
         minorFallacy.foreground = colorBasedOnFallacy(syllogism.isMinorFallacy)
@@ -184,7 +199,7 @@ internal class HandleGUI {
     }
 
     private fun addToWordBank() {
-        val maxLength = 20
+        val maxLength = 50
         val database = WordBank.load()
         var addedWord = userInput("Please input a new plural word.")
         while (addedWord in database || addedWord.length > maxLength
@@ -207,9 +222,6 @@ internal class HandleGUI {
      */
     private inner class GridPane : JPanel() {
         val cells: MutableList<Rectangle> = ArrayList(GRID_VERTICAL_LENGTH * GRID_HORIZONTAL_LENGTH)
-        override fun getPreferredSize(): Dimension {
-            return Dimension(400, 400)
-        }
 
         override fun paintComponent(g: Graphics) {
             super.paintComponent(g)
@@ -246,8 +258,6 @@ internal class HandleGUI {
         const val NAME = "Categorical Syllogism"
         const val GRID_VERTICAL_LENGTH = 13
         const val GRID_HORIZONTAL_LENGTH = 15
-        private const val SPACE = "   "
-        private const val BIG_SPACE = "                        "
         private const val ERROR_MESSAGE = "Error!"
         private val BAD_COLOR = Color.RED
         private val GOOD_COLOR = Color(33, 191, 55)
