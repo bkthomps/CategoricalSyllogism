@@ -2,10 +2,10 @@
 Categorical syllogisms are generated from a user-customisable word bank. The fallacies the syllogism has committed — if any — are displayed. For each syllogism, a Venn diagram is also created.
 
 ## Setup
-1. The Java version for this project is Java 8.
-2. Make sure you have the JDK or JRE installed. If you do not have either of those installed, you can install the JRE by going [here](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) and following the steps.
-3. Download the CategoricalSyllogism.jar file to your computer. Optionally, you can also download Socrates.png to the same location on your computer so that the application has an icon.
-4. Afterwards, you can run the application by running the jar file.
+1. This project is written in Kotlin, and uses Java 12 for the jar file runtime environment.
+2. You can install Java 12 or newer [here](https://jdk.java.net/) and then follow the steps.
+3. Download the CategoricalSyllogism.jar file to your computer.
+4. You can then run the application by running the jar file.
 
 ## Sentences
 Syllogisms contain three sentences: a major premise, a minor premise, and a conclusion. Each sentence contains two words from the word bank. However, one word from the major premise and minor premise always repeats, and the conclusion repeats from the premises. Thus, there are three unique words per syllogism.
