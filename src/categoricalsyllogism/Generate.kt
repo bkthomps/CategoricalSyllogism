@@ -1,8 +1,8 @@
 package categoricalsyllogism
 
 /**
- * Generates the three letters and one number. This combination is later used to display which fallacies are committed,
- * and also to display the venn diagram.
+ * Generates the three letters and one number. This combination is later used to display which
+ * fallacies are committed, and also to display the venn diagram.
  */
 internal object Generate {
     /**

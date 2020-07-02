@@ -1,33 +1,24 @@
 package categoricalsyllogism
 
 /**
- * Performs venn diagram logic. Takes in the syllogism classification (ex: AAA-1) and colors in the venn diagram
- * accordingly. Green represents a check-mark, red represents an x, and orange represents a filled-in area.
+ * Performs venn diagram logic. Takes in the syllogism classification (ex: AAA-1) and colors in
+ * the venn diagram accordingly. Green represents a check-mark, red represents an x, and orange
+ * represents a filled-in area.
  */
 internal class VennLogic {
     internal enum class GridColor {
         WHITE, BLACK, GREEN, RED, ORANGE
     }
 
-    fun makeGrid(one: Char, two: Char, four: Int): Array<Array<GridColor?>> {
-        val grid = Array(HandleGUI.GRID_VERTICAL_LENGTH) { arrayOfNulls<GridColor>(HandleGUI.GRID_HORIZONTAL_LENGTH) }
-        setToZero(grid)
+    fun makeGrid(one: Char, two: Char, four: Int): Array<Array<GridColor>> {
+        val grid = Array(HandleGUI.GRID_VERTICAL_LENGTH) {
+            Array(HandleGUI.GRID_HORIZONTAL_LENGTH) {
+                GridColor.WHITE
+            }
+        }
         setBlack(grid)
         addColor(grid, one, two, four)
         return grid
-    }
-
-    /**
-     * Sets everything in the grid to white so that the background ends up being white.
-     *
-     * @param grid the grid to set to be white
-     */
-    private fun setToZero(grid: Array<Array<GridColor?>>) {
-        for (y in 0 until HandleGUI.GRID_VERTICAL_LENGTH) {
-            for (x in 0 until HandleGUI.GRID_HORIZONTAL_LENGTH) {
-                grid[y][x] = GridColor.WHITE
-            }
-        }
     }
 
     /**
@@ -35,7 +26,7 @@ internal class VennLogic {
      *
      * @param grid the grid to set black circles for
      */
-    private fun setBlack(grid: Array<Array<GridColor?>>) {
+    private fun setBlack(grid: Array<Array<GridColor>>) {
         for (i in 0..4) {
             grid[0][2 + i] = GridColor.BLACK
             grid[0][8 + i] = GridColor.BLACK
@@ -70,7 +61,7 @@ internal class VennLogic {
      * @param two  the minor premise statement type
      * @param four the arrangement of the statements
      */
-    private fun addColor(grid: Array<Array<GridColor?>>, one: Char, two: Char, four: Int) {
+    private fun addColor(grid: Array<Array<GridColor>>, one: Char, two: Char, four: Int) {
         val section = allOrNone(one, two, four)
         val checkMark = someAre(one, two)
         val xMark = someAreNot(one, two, four)
@@ -171,7 +162,8 @@ internal class VennLogic {
      * @param checkMark the check mark color sections to set
      * @param xMark     the check x-color sections to set
      */
-    private fun changeMarks(grid: Array<Array<GridColor?>>, checkMark: BooleanArray, xMark: BooleanArray) {
+    private fun changeMarks(grid: Array<Array<GridColor>>, checkMark: BooleanArray,
+                            xMark: BooleanArray) {
         if (checkMark[0]) {
             grid[6][6] = GridColor.GREEN
         }
@@ -198,7 +190,7 @@ internal class VennLogic {
      * @param grid    the grid to set full color in
      * @param section the sections to set
      */
-    private fun changeSection(grid: Array<Array<GridColor?>>, section: IntArray) {
+    private fun changeSection(grid: Array<Array<GridColor>>, section: IntArray) {
         for (i in 0..6) {
             if (section[i] != 0) {
                 colorInSection(grid, i)
@@ -213,7 +205,7 @@ internal class VennLogic {
      * @param section the sections to set
      * @throws IllegalArgumentException if the section is invalid
      */
-    private fun colorInSection(grid: Array<Array<GridColor?>>, section: Int) {
+    private fun colorInSection(grid: Array<Array<GridColor>>, section: Int) {
         val filledInColor = GridColor.ORANGE
         when (section) {
             0 -> {

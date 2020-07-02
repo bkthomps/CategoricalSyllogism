@@ -1,32 +1,25 @@
 package categoricalsyllogism
 
 /**
- * Holds syllogism data. This data is used throughout the program to compute syllogisms and to create venn diagrams.
+ * Holds syllogism data. This data is used throughout the program to compute syllogisms and to
+ * create venn diagrams.
  */
 internal class Syllogism {
-    /**
-     * The major premise statement type.
-     */
+    /** The major premise statement type. */
     val one: Char
 
-    /**
-     * The minor premise statement type.
-     */
+    /** The minor premise statement type. */
     val two: Char
 
-    /**
-     * The conclusion statement type.
-     */
+    /** The conclusion statement type. */
     val three: Char
 
-    /**
-     * The statement placement format.
-     */
+    /** The statement placement format. */
     val four: Int
 
-    val majorTerm = PickWords.pick()
-    val middleTerm = PickWords.pick(majorTerm)
-    val minorTerm = PickWords.pick(majorTerm, middleTerm)
+    val majorTerm = PickWords.pickUnique(emptyArray())
+    val middleTerm = PickWords.pickUnique(arrayOf(majorTerm))
+    val minorTerm = PickWords.pickUnique(arrayOf(majorTerm, middleTerm))
 
     constructor() {
         one = Generate.character()
@@ -43,8 +36,6 @@ internal class Syllogism {
     }
 
     /**
-     * Determines whether an undistributed middle fallacy has been committed.
-     *
      * @return true if an undistributed middle fallacy has been committed
      * @throws IllegalStateException if the major premise type is invalid
      */
@@ -64,8 +55,6 @@ internal class Syllogism {
         }
 
     /**
-     * Determines whether an illicit process of major term fallacy has been committed.
-     *
      * @return true if an illicit process of major term fallacy has been committed
      */
     val isMajorFallacy: Boolean
@@ -73,8 +62,6 @@ internal class Syllogism {
                 || one == 'A' && (four == 1 || four == 3))
 
     /**
-     * Determines whether an illicit process of minor term fallacy has been committed.
-     *
      * @return true if an illicit process of minor term fallacy has been committed
      */
     val isMinorFallacy: Boolean
@@ -82,32 +69,24 @@ internal class Syllogism {
                 || two == 'A' && (four == 3 || four == 4))
 
     /**
-     * Determines whether a fallacy of excluded premises has been committed.
-     *
      * @return true if a fallacy of excluded premises has been committed
      */
     val isExclusiveFallacy: Boolean
         get() = negative(one) && negative(two)
 
     /**
-     * Determines whether a fallacy of affirmative conclusion has been committed.
-     *
      * @return true if a fallacy of affirmative conclusion has been committed
      */
     val isAffirmativeFallacy: Boolean
         get() = (negative(one) || negative(two)) && positive(three)
 
     /**
-     * Determines whether an existential fallacy has been committed.
-     *
      * @return true if an existential fallacy has been committed
      */
     val isExistentialFallacy: Boolean
         get() = absolute(one) && absolute(two) && relative(three)
 
     /**
-     * Determines whether a positive statement is being made.
-     *
      * @param me the statement type
      * @return true if a positive statement is being made
      */
@@ -116,8 +95,6 @@ internal class Syllogism {
     }
 
     /**
-     * Determines whether a negative statement is being made.
-     *
      * @param me the statement type
      * @return true if a negative statement is being made
      */
@@ -126,8 +103,6 @@ internal class Syllogism {
     }
 
     /**
-     * Determines whether an absolute statement is being made.
-     *
      * @param me the statement type
      * @return true if an absolute statement is being made
      */
@@ -136,8 +111,6 @@ internal class Syllogism {
     }
 
     /**
-     * Determines whether a relative statement is being made.
-     *
      * @param me the statement type
      * @return true if a relative statement is being made
      */
@@ -146,8 +119,6 @@ internal class Syllogism {
     }
 
     /**
-     * Determines whether the syllogism is valid.
-     *
      * @return true if the syllogism is valid
      */
     val isSyllogismValid: Boolean
@@ -155,8 +126,6 @@ internal class Syllogism {
                 && !isAffirmativeFallacy && !isExistentialFallacy
 
     /**
-     * Gets the major premise sentence.
-     *
      * @return the major premise sentence
      * @throws IllegalStateException if the statement placement format is invalid
      */
@@ -169,8 +138,6 @@ internal class Syllogism {
     }
 
     /**
-     * Gets the minor premise sentence.
-     *
      * @return the minor premise sentence
      * @throws IllegalStateException if the statement placement format is invalid
      */
@@ -183,8 +150,6 @@ internal class Syllogism {
     }
 
     /**
-     * Gets the conclusion sentence.
-     *
      * @return the conclusion sentence
      */
     fun conclusionSentence(): String {

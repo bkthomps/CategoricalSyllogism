@@ -6,16 +6,21 @@ import java.util.*
 import javax.swing.*
 
 /**
- * Displays the GUI. Vertically, the application is split into three sections, the top one being the statements, the
- * validity of the syllogism (valid or invalid) and the classification of the statements (ex: AAA-1). The middle section
- * in vertical terms is the fallacies and the venn diagram. The bottom section vertically is the credits, the syllogism
- * info, and the buttons. For the validity of the syllogism, "Valid" will be displayed in green to indicate that it is
- * valid, and "Invalid" will be displayed to indicate that it is invalid. For each fallacy, it will be green if the
- * fallacy was not committed, and red if the fallacy was committed. Thus, to have a green "Valid" syllogism, all
- * fallacy labels must be green.
+ * Displays the GUI. Vertically, the application is split into three sections, the top one being
+ * the statements, the validity of the syllogism (valid or invalid) and the classification of the
+ * statements (ex: AAA-1). The middle section in vertical terms is the fallacies and the venn
+ * diagram. The bottom section vertically is the credits, the syllogism info, and the buttons. For
+ * the validity of the syllogism, "Valid" will be displayed in green to indicate that it is valid,
+ * and "Invalid" will be displayed to indicate that it is invalid. For each fallacy, it will be
+ * green if the fallacy was not committed, and red if the fallacy was committed. Thus, to have a
+ * green "Valid" syllogism, all fallacy labels must be green.
  */
 internal class HandleGUI {
-    private var grid: Array<Array<GridColor?>> = Array(GRID_VERTICAL_LENGTH) { arrayOfNulls<GridColor>(GRID_HORIZONTAL_LENGTH) }
+    private var grid = Array(GRID_VERTICAL_LENGTH) {
+        Array(GRID_HORIZONTAL_LENGTH) {
+            GridColor.WHITE
+        }
+    }
     private val vennDisplay = JLabel()
     private val vennInfo = JPanel()
     private val vennInfoMajor = JLabel()
@@ -180,25 +185,20 @@ internal class HandleGUI {
 
     private fun addToWordBank() {
         val maxLength = 20
-        val fileIO = FileIO()
-        val database = fileIO.loadWords()
+        val database = WordBank.load()
         var addedWord = userInput("Please input a new plural word.")
-        while (addedWord in database || addedWord.length > maxLength) {
+        while (addedWord in database || addedWord.length > maxLength
+                || (addedWord.isBlank() && addedWord.isNotEmpty())) {
             val errorMessage = when {
-                addedWord in database -> {
-                    "This word is already in the database."
-                }
-                addedWord.length > maxLength -> {
-                    "Maximum of $maxLength characters."
-                }
-                else -> {
-                    throw IllegalStateException("Invalid error message state check.")
-                }
+                addedWord in database -> "This word is already in the database."
+                addedWord.length > maxLength -> "Maximum of $maxLength characters."
+                addedWord.isBlank() -> "This is simply blank text."
+                else -> throw IllegalStateException("Invalid error message state check.")
             }
             addedWord = userInput(errorMessage)
         }
-        if ("" != addedWord.replace(" ".toRegex(), "")) {
-            fileIO.addWord(addedWord)
+        if (addedWord.isNotEmpty()) {
+            WordBank.add(addedWord)
         }
     }
 
@@ -219,7 +219,8 @@ internal class HandleGUI {
             if (cells.isEmpty()) {
                 for (row in 0 until GRID_VERTICAL_LENGTH) {
                     for (col in 0 until GRID_HORIZONTAL_LENGTH) {
-                        val cell = Rectangle(col * cellWidth, row * cellHeight, cellWidth, cellHeight)
+                        val cell =
+                                Rectangle(col * cellWidth, row * cellHeight, cellWidth, cellHeight)
                         cells.add(cell)
                     }
                 }
@@ -227,13 +228,12 @@ internal class HandleGUI {
             for (vertical in 0 until GRID_VERTICAL_LENGTH) {
                 for (horizontal in 0 until GRID_HORIZONTAL_LENGTH) {
                     val cell = cells[horizontal + vertical * GRID_HORIZONTAL_LENGTH]
-                    when (grid[vertical][horizontal]) {
-                        GridColor.WHITE -> g2d.color = Color.WHITE
-                        GridColor.BLACK -> g2d.color = Color.BLACK
-                        GridColor.GREEN -> g2d.color = Color.GREEN
-                        GridColor.RED -> g2d.color = Color.RED
-                        GridColor.ORANGE -> g2d.color = Color.ORANGE
-                        else -> throw IllegalStateException("Invalid color")
+                    g2d.color = when (grid[vertical][horizontal]) {
+                        GridColor.WHITE -> Color.WHITE
+                        GridColor.BLACK -> Color.BLACK
+                        GridColor.GREEN -> Color.GREEN
+                        GridColor.RED -> Color.RED
+                        GridColor.ORANGE -> Color.ORANGE
                     }
                     g2d.fill(cell)
                     repaint()
@@ -248,8 +248,8 @@ internal class HandleGUI {
         const val GRID_HORIZONTAL_LENGTH = 15
         private const val SPACE = "   "
         private const val BIG_SPACE = "                        "
+        private const val ERROR_MESSAGE = "Error!"
         private val BAD_COLOR = Color.RED
         private val GOOD_COLOR = Color(33, 191, 55)
-        private const val ERROR_MESSAGE = "Error!"
     }
 }

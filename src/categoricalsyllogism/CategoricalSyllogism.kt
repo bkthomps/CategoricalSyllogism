@@ -1,6 +1,6 @@
 package categoricalsyllogism
 
-import java.util.*
+import java.util.Locale
 import javax.swing.JOptionPane
 import kotlin.system.exitProcess
 
@@ -18,8 +18,8 @@ internal class CategoricalSyllogism {
     }
 
     private fun errorAndExit(errorText: String) {
-        JOptionPane.showConfirmDialog(null, "Critical Error:\n$errorText\nShutting Down.", HandleGUI.NAME,
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE)
+        JOptionPane.showConfirmDialog(null, "Critical Error:\n$errorText\nShutting Down.",
+                HandleGUI.NAME, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE)
         exitProcess(0)
     }
 
