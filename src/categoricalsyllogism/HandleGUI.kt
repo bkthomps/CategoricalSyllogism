@@ -61,7 +61,7 @@ internal class HandleGUI {
         frame.setLocationRelativeTo(null)
         frame.iconImage = icon.image
         frame.isVisible = true
-        var grid = GridPane()
+        val grid = GridPane()
         vennDisplay.layout = GridLayout()
         vennDisplay.add(grid)
         statements.add(majorPremise)
@@ -110,12 +110,9 @@ internal class HandleGUI {
         val heightRatio = grid.height.toDouble() / 400.0
         frame.addComponentListener(object : ComponentAdapter() {
             override fun componentResized(e: ComponentEvent) {
-                val width = e.component.width.coerceAtMost((1.25 * e.component.height).toInt())
-                val height = e.component.height.coerceAtMost((1.25 * e.component.width).toInt())
-                vennDisplay.remove(grid)
-                grid = GridPane()
-                grid.setSize((width * widthRatio).toInt(), (height * heightRatio).toInt())
-                vennDisplay.add(grid)
+                val width = e.component.width * widthRatio
+                val height = e.component.height * heightRatio
+                grid.setSize(width.toInt(), height.toInt())
             }
         })
     }
@@ -221,10 +218,9 @@ internal class HandleGUI {
      * Displays the individual colors on the Venn diagram.
      */
     private inner class GridPane : JPanel() {
-        val cells: MutableList<Rectangle> = ArrayList(GRID_VERTICAL_LENGTH * GRID_HORIZONTAL_LENGTH)
-
         override fun paintComponent(g: Graphics) {
             super.paintComponent(g)
+            val cells: MutableList<Rectangle> = ArrayList(GRID_VERTICAL_LENGTH * GRID_HORIZONTAL_LENGTH)
             val g2d = g.create() as Graphics2D
             val cellWidth = width / GRID_HORIZONTAL_LENGTH
             val cellHeight = height / GRID_VERTICAL_LENGTH
